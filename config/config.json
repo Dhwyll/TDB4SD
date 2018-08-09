@@ -1,0 +1,24 @@
+{
+	"development": {
+	  "username": "root",
+	  "password": "MySQLpw0rd!",
+	  "database": "tdb4sd",
+	  "host": "127.0.0.1",
+	  "dialect": "mysql"
+	},
+	"test": {
+	  "username": "root",
+	  "password": null,
+	  "database": "tdb4sd_test",
+	  "host": "127.0.0.1",
+	  "dialect": "mysql"
+	},
+	"production": {
+	  "username": "root",
+	  "password": null,
+	  "database": "tdb4sd_production",
+	  "host": "127.0.0.1",
+	  "dialect": "mysql"
+	}
+}
+  

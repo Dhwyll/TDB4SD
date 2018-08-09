@@ -1,0 +1,67 @@
+body {
+	font-family: Oxygen;
+}
+
+.filter-indent {
+	padding-left: 40px !important;
+}
+
+h1 {
+	-webkit-text-stroke: 1px black;
+	color: white;
+	text-shadow:
+		3px 3px 0 #000,
+		-1px -1px 0 #000,  
+		1px -1px 0 #000,
+		-1px 1px 0 #000,
+		1px 1px 0 #000;
+}
+
+.JumboHeaderImg {
+	background-image: url("http://localhost:8080/img/spotlights.png");
+	background-size: cover;
+	/* background-color: rgba(255, 255, 255, 0.8); */
+    /* background-blend-mode: lighten; */
+}
+
+.jumboTextStyle {
+	font-style: italic;
+	font-weight: bold;
+	font-size: 16pt;
+	-webkit-text-stroke: 1px black;
+	color: white;
+	text-shadow:
+		3px 3px 0 #000,
+	  -1px -1px 0 #000,  
+	   1px -1px 0 #000,
+	   -1px 1px 0 #000,
+		1px 1px 0 #000;
+}
+
+span.avoidwrap { display:inline-block; }
+
+.boldItalic {
+	font-style: italic;
+	font-weight: bold;
+}
+
+.margin-above {
+	margin-top: 6px;
+}
+
+.margin-below {
+	margin-bottom: 10px;
+}
+
+.margin-left {
+	margin-left: 3px;
+}
+
+.margin-right {
+	margin-right: 3px;
+}
+
+.margin-sides {
+	margin-left: 3px;
+	margin-right: 3px;
+}
