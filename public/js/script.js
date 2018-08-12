@@ -709,7 +709,7 @@ $(document).ready(function(){
 								"<li class='list-group-item results-item'>",
 									personDetails[i].Position,
 									" playing &quot;",
-									personDetails[i].role,
+									personDetails[i].Role,
 									"&quot; in ",
 									"<button type='button' class='productionLookup margin-sides btn btn-outline-dark' value='",
 									personDetails[i].Production_ID,
@@ -719,7 +719,7 @@ $(document).ready(function(){
 									personDetails[i].Theatre_ID,
 									"'>",personDetails[i].Theatre,"</button>",
 									" in ",
-									personDetails[i].open_date.slice(0,4),
+									personDetails[i].Open_Date.slice(0,4),
 								"</li>",
 							"</div>",
 						"</div>"
@@ -742,7 +742,7 @@ $(document).ready(function(){
 									personDetails[i].Theatre_ID,
 									"'>",personDetails[i].Theatre,"</button>",
 									" in ",
-									personDetails[i].open_date.slice(0,4),
+									personDetails[i].Open_Date.slice(0,4),
 								"</li>",
 							"</div>",
 						"</div>"
@@ -982,9 +982,9 @@ $(document).ready(function(){
 								showDetails[i].Title,
 								"</span></button><br>",
 								"Opening Date: ",
-								showDetails[i].open_date,
+								showDetails[i].Open_Date,
 								"<br>Closing Date: ",
-								showDetails[i].close_date,
+								showDetails[i].Close_Date,
 							"</li>",
 						"</div>",
 					"</div>"
