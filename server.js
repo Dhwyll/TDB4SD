@@ -22,12 +22,15 @@ app.use(bodyParser.json({ type: "application/vnd.api+json" }));
 
 // Serve up static assets (usually on heroku)
 if (process.env.NODE_ENV === "production") {
-	app.use(express.static("client/build"));
+	app.use(express.static("public"));
 }
 
 // Routes
 // =============================================================
 require("./routes/api-routes.js")(app);
+app.get('*', (request, response) => {
+	response.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
 
 // Syncing our sequelize models and then starting our Express app
 // =============================================================
