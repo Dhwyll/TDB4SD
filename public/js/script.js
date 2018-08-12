@@ -9,6 +9,7 @@ $(document).ready(function(){
 
 
 
+
 	// Make sure the various Results containers are hidden at the start.
 	$("#productionResultsContainer").hide();
 	$("#personResultsContainer").hide();
@@ -335,6 +336,88 @@ $(document).ready(function(){
 			};
 		};
 
+		// Set the Musical Director information
+		for (let i = 0; i < productionDetails.length; i++) {
+			if (productionDetails[i].Position == 'Musical Director') {
+				let $musicDirectorName = $(
+					[
+						"<div class='row align-items-center'>",
+							"<div class='col-md-12 margin-below'><span class='float-left margin-above'>",
+								productionDetails[i].Position,
+								": </span><span class='float-right'>",
+								"<button type='button' class='personLookup btn btn-outline-dark' value='",
+								productionDetails[i].Person_ID,
+								"'>",productionDetails[i].Name,"</button></span>",
+							"</div>",
+						"</div>"
+					].join("")
+				);
+				rowsToAdd.push($musicDirectorName);
+			};
+		};
+
+		// Set the Choreographer information
+		for (let i = 0; i < productionDetails.length; i++) {
+			if (productionDetails[i].Position == 'Choreographer') {
+				let $choreographerName = $(
+					[
+						"<div class='row align-items-center'>",
+							"<div class='col-md-12 margin-below'><span class='float-left margin-above'>",
+								productionDetails[i].Position,
+								": </span><span class='float-right'>",
+								"<button type='button' class='personLookup btn btn-outline-dark' value='",
+								productionDetails[i].Person_ID,
+								"'>",productionDetails[i].Name,"</button></span>",
+							"</div>",
+						"</div>"
+					].join("")
+				);
+				rowsToAdd.push($choreographerName);
+			};
+		};
+
+		// Set the Assistant Choreographer information
+		for (let i = 0; i < productionDetails.length; i++) {
+			if (productionDetails[i].Position == 'Assistant Choreographer') {
+				let $asstChoreographerName = $(
+					[
+						"<div class='row align-items-center'>",
+							"<div class='col-md-12 margin-below'><span class='float-left margin-above'>",
+								productionDetails[i].Position,
+								": </span><span class='float-right'>",
+								"<button type='button' class='personLookup btn btn-outline-dark' value='",
+								productionDetails[i].Person_ID,
+								"'>",productionDetails[i].Name,"</button></span>",
+							"</div>",
+						"</div>"
+					].join("")
+				);
+				rowsToAdd.push($asstChoreographerName);
+			};
+		};
+
+		// Set everybody else's information
+		let restArray = ['Producer', 'Director', 'Assistant Director', 'Musical Director', 'Choreographer',
+			'Assistant Choreographer', 'Actor', 'Musician', 'Author', 'Book', 'Composer', 'Lyricist'];
+		for (let i = 0; i < productionDetails.length; i++) {
+			if ($.inArray(productionDetails[i].Position, restArray) < 0) {
+				let $restName = $(
+					[
+						"<div class='row align-items-center'>",
+							"<div class='col-md-12 margin-below'><span class='float-left margin-above'>",
+								productionDetails[i].Position,
+								": </span><span class='float-right'>",
+								"<button type='button' class='personLookup btn btn-outline-dark' value='",
+								productionDetails[i].Person_ID,
+								"'>",productionDetails[i].Name,"</button></span>",
+							"</div>",
+						"</div>"
+					].join("")
+				);
+				rowsToAdd.push($restName);
+			};
+		};
+
 		// Set the Cast and push to rowsToAdd
 		let $castHeader = $(
 			[
@@ -368,6 +451,51 @@ $(document).ready(function(){
 				rowsToAdd.push($actorName);
 			}
 		}
+
+		// Set the Orchestra and push to rowsToAdd
+		let isOrchestra = false;
+		for (let i = 0; i < productionDetails.length; i++) {
+			if (productionDetails[i].Position == 'Musician') {
+				isOrchestra = true;
+			}
+		}
+		if (isOrchestra) {
+			let $castHeader = $(
+				[
+					"<div class='row'>",
+						"<div class='col-md-12'><br><hr><br>",
+						"</div>",
+					"</div>",
+					"<div class='row'>",
+						"<div class='col-md-12'><h2>Orchestra</h2></div>",
+					"</div>"
+				].join("")
+			);
+			rowsToAdd.push($castHeader);
+
+			// Set the Orchestra information
+			for (let i = 0; i < productionDetails.length; i++) {
+				if (productionDetails[i].Position == 'Musician') {
+					let $musicianName = $(
+						[
+							"<div class='row align-items-center'>",
+								"<div class='col-md-12 margin-below'><span class='float-left margin-above'>",
+									productionDetails[i].Role,
+									": </span><span class='float-right'>",
+									"<button type='button' class='personLookup btn btn-outline-dark' value='",
+									productionDetails[i].Person_ID,
+									"'>",productionDetails[i].Name,"</button></span>",
+								"</div>",
+							"</div>"
+						].join("")
+					);
+					rowsToAdd.push($musicianName);
+				}
+			}
+	
+		}
+
+
 
 		// Get the Awards information for this show
 		let whichProduction = {
@@ -921,6 +1049,7 @@ $(document).ready(function(){
 
 	// This functions calls the various searches
 	$("#searchButton").on("click", function(event) {
+		event.preventDefault();
 		$("#productionResultsContainer").hide();
 		$("#personResultsContainer").hide();
 		$("#theatreResultsContainer").hide();

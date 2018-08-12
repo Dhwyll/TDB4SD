@@ -20,8 +20,6 @@ h1 {
 .JumboHeaderImg {
 	background-image: url("http://localhost:8080/img/spotlights.png");
 	background-size: cover;
-	/* background-color: rgba(255, 255, 255, 0.8); */
-    /* background-blend-mode: lighten; */
 }
 
 .jumboTextStyle {
@@ -37,8 +35,6 @@ h1 {
 	   -1px 1px 0 #000,
 		1px 1px 0 #000;
 }
-
-span.avoidwrap { display:inline-block; }
 
 .boldItalic {
 	font-style: italic;
