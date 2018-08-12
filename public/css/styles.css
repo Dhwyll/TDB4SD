@@ -18,7 +18,7 @@ h1 {
 }
 
 .JumboHeaderImg {
-	background-image: url("http://localhost:8080/img/spotlights.png");
+	background-image: url("/img/spotlights.png");
 	background-size: cover;
 }
 
