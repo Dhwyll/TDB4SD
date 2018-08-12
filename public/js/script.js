@@ -600,10 +600,7 @@ $(document).ready(function(){
 		let searchTerm = {
 			searchName: newSearch
 		};
-		console.log("about to GET persons");
 		$.get("/api/Person", searchTerm, function(data) {
-			console.log("back from the GET with");
-			console.dir(data);
 			persons = data;
 			initializePersonRows(persons);
 		});
@@ -1059,7 +1056,6 @@ $(document).ready(function(){
 		$("#detailsContainer").hide();
 		var newSearch = $("#searchInput").val().trim();
 		var newSearchType = $("#searchType").text().trim();
-		console.log("I'm about to do a search for", newSearch, "in", newSearchType)
 		if (newSearch.length > 0) {
 			switch(newSearchType) {
 				case 'All':
