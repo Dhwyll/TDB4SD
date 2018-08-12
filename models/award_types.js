@@ -6,7 +6,7 @@ module.exports = function(sequelize, DataTypes) {
 			allowNull: false,
 			validate: {notEmpty: true}
 		},
-		'category': {
+		'Category': {
 			type: DataTypes.STRING,
 			allowNull: false,
 			validate: {notEmpty: true}

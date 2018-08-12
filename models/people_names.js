@@ -6,12 +6,12 @@ module.exports = function(sequelize, DataTypes) {
 			allowNull: false,
 			validate: {notEmpty: true}
 		},
-		'name': {
+		'Name': {
 			type: DataTypes.STRING,
 			allowNull: false,
 			validate: {notEmpty: true}
 		},
-		'last_name': {
+		'Last_Name': {
 			type: DataTypes.STRING,
 			allowNull: false,
 			validate: {notEmpty: true}

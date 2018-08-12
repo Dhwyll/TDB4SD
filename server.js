@@ -20,10 +20,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.text());
 app.use(bodyParser.json({ type: "application/vnd.api+json" }));
 
-// Serve up static assets (usually on heroku)
-// if (process.env.NODE_ENV === "production") {
-	app.use(express.static("public"));
-// }
+app.use(express.static("public"));
 
 // Routes
 // =============================================================
@@ -37,7 +34,5 @@ require("./routes/api-routes.js")(app);
 // =============================================================
 db.sequelize.sync().then(function() {
   app.listen(PORT, function() {
-    console.log("process.env.PORT is ", process.env.PORT);
-    console.log("App listening on PORT " + PORT);
   });
 });

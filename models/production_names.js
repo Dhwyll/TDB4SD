@@ -6,7 +6,7 @@ module.exports = function(sequelize, DataTypes) {
 			allowNull: false,
 			validate: {notEmpty: true}
 		},
-		'production': {
+		'Production': {
 			type: DataTypes.TEXT,
 			allowNull: false,
 			validate: {notEmpty: true}
