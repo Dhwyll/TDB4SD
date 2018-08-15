@@ -58,7 +58,7 @@ $(document).ready(function(){
 	function createNewProductionRow(results) {
 		var $newInputRow = $(
 			[
-				"<div class='row margin-below align-items-center'>",
+				"<div class='row align-items-center margin-below'>",
 					"<div class='col-md-9'>",
 						"<li class='list-group-item results-item'>",
 							"<span class='boldItalic'>",
@@ -138,12 +138,12 @@ $(document).ready(function(){
 				let $authorName = $(
 					[
 						"<div class='row align-items-center'>",
-							"<div class='col-md-12 margin-below'><span class='float-left margin-above'>",
+							"<div class='col-md-12'><span class='float-left'>",
 								productionDetails[i].Position,
 								":</span>",
-								"<span class='float-right'><button type='button' class='personLookup btn btn-outline-dark' value='",
+								"<span class='float-right'><span class='personLookup likeLink' data-id='",
 								productionDetails[i].Person_ID,
-								"'>",productionDetails[i].Name,"</button></span>",
+								"'><span class='boldItalic'>",productionDetails[i].Name,"</span></span></span>",
 							"</div>",
 						"</div>"
 					].join("")
@@ -158,12 +158,12 @@ $(document).ready(function(){
 				let $composerName = $(
 					[
 						"<div class='row align-items-center'>",
-							"<div class='col-md-12 margin-below'><span class='float-left margin-above'>",
+							"<div class='col-md-12'><span class='float-left'>",
 								productionDetails[i].Position,
 								": </span><span class='float-right'>",
-								"<button type='button' class='personLookup btn btn-outline-dark' value='",
+								"<span class='personLookup likeLink' data-id='",
 								productionDetails[i].Person_ID,
-								"'>",productionDetails[i].Name,"</button></span>",
+								"'><span class='boldItalic'>",productionDetails[i].Name,"</span></span></span>",
 							"</div>",
 						"</div>"
 					].join("")
@@ -178,12 +178,12 @@ $(document).ready(function(){
 				let $lyricistName = $(
 					[
 						"<div class='row align-items-center'>",
-							"<div class='col-md-12 margin-below'><span class='float-left margin-above'>",
+							"<div class='col-md-12'><span class='float-left'>",
 								productionDetails[i].Position,
 								": </span><span class='float-right'>",
-								"<button type='button' class='personLookup btn btn-outline-dark' value='",
+								"<span class='personLookup likeLink' data-id='",
 								productionDetails[i].Person_ID,
-								"'>",productionDetails[i].Name,"</button></span>",
+								"'><span class='boldItalic'>",productionDetails[i].Name,"</span></span></span>",
 							"</div>",
 						"</div>"
 					].join("")
@@ -198,12 +198,12 @@ $(document).ready(function(){
 				let $bookName = $(
 					[
 						"<div class='row align-items-center'>",
-							"<div class='col-md-12 margin-below'><span class='float-left margin-above'>",
+							"<div class='col-md-12'><span class='float-left'>",
 								productionDetails[i].Position,
 								": </span><span class='float-right'>",
-								"<button type='button' class='personLookup btn btn-outline-dark' value='",
+								"<span class='personLookup likeLink' data-id='",
 								productionDetails[i].Person_ID,
-								"'>",productionDetails[i].Name,"</button></span>",
+								"'><span class='boldItalic'>",productionDetails[i].Name,"</span></span></span>",
 							"</div>",
 						"</div>"
 					].join("")
@@ -216,10 +216,10 @@ $(document).ready(function(){
 		let $theatreRow = $(
 			[
 				"<div class='row align-items-center'>",
-					"<div class='col-md-12 margin-below'><span class='float-left margin-above'>Theatre: </span><span class='float-right'>",
-						"<button type='button' class='theatreLookup btn btn-outline-dark' value='",
+					"<div class='col-md-12'><span class='float-left'>Theatre: </span><span class='float-right'>",
+						"<span class='theatreLookup likeLink' data-id='",
 						productionDetails[0].Theatre_ID,
-						"'>",productionDetails[0].Theatre,"</button></span>",
+						"'><span class='boldItalic'>",productionDetails[0].Theatre,"</span></span></span>",
 					"</div>",
 				"</div>"
 			].join("")
@@ -254,7 +254,7 @@ $(document).ready(function(){
 		let $numberPerformances = $(
 			[
 				"<div class='row'>",
-					"<div class='col-md-12 margin-below'>Number of Performances: ",
+					"<div class='col-md-12'>Number of Performances: ",
 						productionDetails[0].Num_Performances,
 					"</div>",
 				"</div>"
@@ -282,12 +282,12 @@ $(document).ready(function(){
 				let $producerName = $(
 					[
 						"<div class='row align-items-center'>",
-							"<div class='col-md-12 margin-below'><span class='float-left margin-above'>",
+							"<div class='col-md-12'><span class='float-left'>",
 								productionDetails[i].Position,
 								": </span><span class='float-right'>",
-								"<button type='button' class='personLookup btn btn-outline-dark' value='",
+								"<span class='personLookup likeLink' data-id='",
 								productionDetails[i].Person_ID,
-								"'>",productionDetails[i].Name,"</button></span>",
+								"'><span class='boldItalic'>",productionDetails[i].Name,"</span></span></span>",
 							"</div>",
 						"</div>"
 					].join("")
@@ -302,12 +302,12 @@ $(document).ready(function(){
 				let $directorName = $(
 					[
 						"<div class='row align-items-center'>",
-							"<div class='col-md-12 margin-below'><span class='float-left margin-above'>",
+							"<div class='col-md-12'><span class='float-left'>",
 								productionDetails[i].Position,
 								": </span><span class='float-right'>",
-								"<button type='button' class='personLookup btn btn-outline-dark' value='",
+								"<span class='personLookup likeLink' data-id='",
 								productionDetails[i].Person_ID,
-								"'>",productionDetails[i].Name,"</button></span>",
+								"'><span class='boldItalic'>",productionDetails[i].Name,"</span></span></span>",
 							"</div>",
 						"</div>"
 					].join("")
@@ -322,12 +322,12 @@ $(document).ready(function(){
 				let $asstDirectorName = $(
 					[
 						"<div class='row align-items-center'>",
-							"<div class='col-md-12 margin-below'><span class='float-left margin-above'>",
+							"<div class='col-md-12'><span class='float-left'>",
 								productionDetails[i].Position,
 								": </span><span class='float-right'>",
-								"<button type='button' class='personLookup btn btn-outline-dark' value='",
+								"<span class='personLookup likeLink' data-id='",
 								productionDetails[i].Person_ID,
-								"'>",productionDetails[i].Name,"</button></span>",
+								"'><span class='boldItalic'>",productionDetails[i].Name,"</span></span></span>",
 							"</div>",
 						"</div>"
 					].join("")
@@ -342,12 +342,12 @@ $(document).ready(function(){
 				let $musicDirectorName = $(
 					[
 						"<div class='row align-items-center'>",
-							"<div class='col-md-12 margin-below'><span class='float-left margin-above'>",
+							"<div class='col-md-12'><span class='float-left'>",
 								productionDetails[i].Position,
 								": </span><span class='float-right'>",
-								"<button type='button' class='personLookup btn btn-outline-dark' value='",
+								"<span class='personLookup likeLink' data-id='",
 								productionDetails[i].Person_ID,
-								"'>",productionDetails[i].Name,"</button></span>",
+								"'><span class='boldItalic'>",productionDetails[i].Name,"</span></span></span>",
 							"</div>",
 						"</div>"
 					].join("")
@@ -362,12 +362,12 @@ $(document).ready(function(){
 				let $choreographerName = $(
 					[
 						"<div class='row align-items-center'>",
-							"<div class='col-md-12 margin-below'><span class='float-left margin-above'>",
+							"<div class='col-md-12'><span class='float-left'>",
 								productionDetails[i].Position,
 								": </span><span class='float-right'>",
-								"<button type='button' class='personLookup btn btn-outline-dark' value='",
+								"<span class='personLookup likeLink' data-id='",
 								productionDetails[i].Person_ID,
-								"'>",productionDetails[i].Name,"</button></span>",
+								"'><span class='boldItalic'>",productionDetails[i].Name,"</span></span></span>",
 							"</div>",
 						"</div>"
 					].join("")
@@ -382,12 +382,12 @@ $(document).ready(function(){
 				let $asstChoreographerName = $(
 					[
 						"<div class='row align-items-center'>",
-							"<div class='col-md-12 margin-below'><span class='float-left margin-above'>",
+							"<div class='col-md-12'><span class='float-left'>",
 								productionDetails[i].Position,
 								": </span><span class='float-right'>",
-								"<button type='button' class='personLookup btn btn-outline-dark' value='",
+								"<span class='personLookup likeLink' data-id='",
 								productionDetails[i].Person_ID,
-								"'>",productionDetails[i].Name,"</button></span>",
+								"'><span class='boldItalic'>",productionDetails[i].Name,"</span></span></span>",
 							"</div>",
 						"</div>"
 					].join("")
@@ -404,12 +404,12 @@ $(document).ready(function(){
 				let $restName = $(
 					[
 						"<div class='row align-items-center'>",
-							"<div class='col-md-12 margin-below'><span class='float-left margin-above'>",
+							"<div class='col-md-12'><span class='float-left'>",
 								productionDetails[i].Position,
 								": </span><span class='float-right'>",
-								"<button type='button' class='personLookup btn btn-outline-dark' value='",
+								"<span class='personLookup likeLink' data-id='",
 								productionDetails[i].Person_ID,
-								"'>",productionDetails[i].Name,"</button></span>",
+								"'><span class='boldItalic'>",productionDetails[i].Name,"</span></span></span>",
 							"</div>",
 						"</div>"
 					].join("")
@@ -438,12 +438,12 @@ $(document).ready(function(){
 				let $actorName = $(
 					[
 						"<div class='row align-items-center'>",
-							"<div class='col-md-12 margin-below'><span class='float-left margin-above'>",
+							"<div class='col-md-12'><span class='float-left'>",
 								productionDetails[i].Role,
 								": </span><span class='float-right'>",
-								"<button type='button' class='personLookup btn btn-outline-dark' value='",
+								"<span class='personLookup likeLink' data-id='",
 								productionDetails[i].Person_ID,
-								"'>",productionDetails[i].Name,"</button></span>",
+								"'><span class='boldItalic'>",productionDetails[i].Name,"</span></span></span>",
 							"</div>",
 						"</div>"
 					].join("")
@@ -479,12 +479,12 @@ $(document).ready(function(){
 					let $musicianName = $(
 						[
 							"<div class='row align-items-center'>",
-								"<div class='col-md-12 margin-below'><span class='float-left margin-above'>",
+								"<div class='col-md-12'><span class='float-left'>",
 									productionDetails[i].Role,
 									": </span><span class='float-right'>",
-									"<button type='button' class='personLookup btn btn-outline-dark' value='",
+									"<span class='personLookup likeLink' data-id='",
 									productionDetails[i].Person_ID,
-									"'>",productionDetails[i].Name,"</button></span>",
+									"'><span class='boldItalic'>",productionDetails[i].Name,"</span></span></span>",
 								"</div>",
 							"</div>"
 						].join("")
@@ -551,12 +551,12 @@ $(document).ready(function(){
 								let $awardRow = $(
 									[
 										"<div class='row align-items-center'>",
-											"<div class='col-md-12 margin-below'><span class='float-left margin-above'>",
+											"<div class='col-md-12'><span class='float-left'>",
 												awards[k].Category,
 												": </span><span class='float-right'>",
-												"<span class='boldItalic'>(won)</span> <button type='button' class='personLookup margin-left btn btn-outline-dark' value='",
+												"<span class='boldItalic'>(won)</span> <span class='personLookup likeLink' data-id='",
 												awards[k].Person_ID,
-												"'>",awards[k].Name,"</button>",
+												"'><span class='boldItalic'>",awards[k].Name,"</span></span>",
 												"</span>",
 											"</div>",
 										"</div>"
@@ -567,12 +567,12 @@ $(document).ready(function(){
 								let $awardRow = $(
 									[
 										"<div class='row align-items-center'>",
-											"<div class='col-md-12 margin-below'><span class='float-left margin-above'>",
+											"<div class='col-md-12'><span class='float-left'>",
 												awards[k].Category,
 												": </span><span class='float-right'>",
-												"(nominated) <button type='button' class='personLookup margin-left btn btn-outline-dark' value='",
+												"(nominated) <span class='personLookup likeLink' data-id='",
 												awards[k].Person_ID,
-												"'>",awards[k].Name,"</button>",
+												"'><span class='boldItalic'>",awards[k].Name,"</span></span>",
 												"</span>",
 											"</div>",
 										"</div>"
@@ -708,13 +708,13 @@ $(document).ready(function(){
 									" playing &quot;",
 									personDetails[i].Role,
 									"&quot; in ",
-									"<button type='button' class='productionLookup margin-sides btn btn-outline-dark' value='",
+									"<span class='productionLookup likeLink' data-id='",
 									personDetails[i].Production_ID,
-									"'><span class='boldItalic'>",personDetails[i].Title,"</span></button>",
+									"'><span class='boldItalic'>",personDetails[i].Title,"</span></span>",
 									" at ",
-									"<button type='button' class='theatreLookup margin-sides btn btn-outline-dark' value='",
+									"<span class='theatreLookup likeLink' data-id='",
 									personDetails[i].Theatre_ID,
-									"'>",personDetails[i].Theatre,"</button>",
+									"'><span class='boldItalic'>",personDetails[i].Theatre,"</span></span>",
 									" in ",
 									personDetails[i].Open_Date.slice(0,4),
 								"</li>",
@@ -731,13 +731,13 @@ $(document).ready(function(){
 								"<li class='list-group-item results-item'>",
 									personDetails[i].Position,
 									" for ",
-									"<button type='button' class='productionLookup margin-sides btn btn-outline-dark' value='",
+									"<span class='productionLookup likeLink' data-id='",
 									personDetails[i].Production_ID,
-									"'><span class='boldItalic'>",personDetails[i].Title,"</span></button>",
+									"'><span class='boldItalic'>",personDetails[i].Title,"</span></span>",
 									" at ",
-									"<button type='button' class='theatreLookup margin-sides btn btn-outline-dark' value='",
+									"<span class='theatreLookup likeLink' data-id='",
 									personDetails[i].Theatre_ID,
-									"'>",personDetails[i].Theatre,"</button>",
+									"'><span class='boldItalic'>",personDetails[i].Theatre,"</span></span>",
 									" in ",
 									personDetails[i].Open_Date.slice(0,4),
 								"</li>",
@@ -818,11 +818,11 @@ $(document).ready(function(){
 													" ",
 													awards[k].Category,
 													" <span class='boldItalic'>(won)</span> ",
-													"<button type='button' class='productionLookup margin-right btn btn-outline-dark' value='",
+													"<span class='productionLookup likeLink' data-id='",
 													awards[k].Production_ID,
 													"'><span class='boldItalic'>",
 													awards[k].Title,
-													"</span></button>",
+													"</span></span>",
 												"</li>",
 											"</div>",
 										"</div>"
@@ -839,11 +839,11 @@ $(document).ready(function(){
 													" ",
 													awards[k].Category,
 													" (nominated) ",
-													"<button type='button' class='productionLookup margin-right btn btn-outline-dark' value='",
+													"<span class='productionLookup likeLink' data-id='",
 													awards[k].Production_ID,
 													"'><span class='boldItalic'>",
 													awards[k].Title,
-													"</span></button>",
+													"</span></span>",
 												"</li>",
 											"</div>",
 										"</div>"
@@ -973,11 +973,11 @@ $(document).ready(function(){
 					"<div class='row align-items-center margin-below'>",
 						"<div class='col-md-12'>",
 							"<li class='list-group-item results-item'>",
-								"<button type='button' class='productionLookup margin-right btn btn-outline-dark' value='",
+								"<span class='productionLookup likeLink' data-id='",
 								showDetails[i].Production_ID,
 								"'><span class='boldItalic'>",
 								showDetails[i].Title,
-								"</span></button><br>",
+								"</span></span><br>",
 								"Opening Date: ",
 								showDetails[i].Open_Date,
 								"<br>Closing Date: ",
@@ -1012,7 +1012,6 @@ $(document).ready(function(){
 
 
 
-
 	// When a Search Type is chosen, update the dropdown button
 	$(function() {
 		$(".dropdown-menu a").click(function(){
@@ -1021,30 +1020,30 @@ $(document).ready(function(){
 	});
 
 	// When clicking on an individual Production in the Details, look up that Production and get their Details
-	$(document).on("click", "button.productionLookup", function(event) {
+	$(document).on("click", "span.productionLookup", function() {
 		$("#productionResultsContainer").hide();
 		$("#personResultsContainer").hide();
 		$("#theatreResultsContainer").hide();
 		$("#detailsContainer").hide();
-		getProductionIDResults($(this).val(), $(this).text());
+		getProductionIDResults($(this).attr("data-id"), $(this).text());
 	});
 
 	// When clicking on an individual Person in the Details, look up at that Person and get their Details
-	$(document).on("click", "button.personLookup", function(event) {
+	$(document).on("click", "span.personLookup", function() {
 		$("#productionResultsContainer").hide();
 		$("#personResultsContainer").hide();
 		$("#theatreResultsContainer").hide();
 		$("#detailsContainer").hide();
-		getPersonIDResults($(this).val(), $(this).text());
+		getPersonIDResults($(this).attr("data-id"), $(this).text());
 	});
 
 	// When clicking on an individual Theatre in the Details, look up that Theatre and get its Details
-	$(document).on("click", "button.theatreLookup", function(event) {
+	$(document).on("click", "span.theatreLookup", function() {
 		$("#productionResultsContainer").hide();
 		$("#personResultsContainer").hide();
 		$("#theatreResultsContainer").hide();
 		$("#detailsContainer").hide();
-		getTheatreIDResults($(this).val(), $(this).text());
+		getTheatreIDResults($(this).attr("data-id"), $(this).text());
 	});
 
 	// This functions calls the various searches

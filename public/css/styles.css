@@ -41,23 +41,15 @@ h1 {
 	font-weight: bold;
 }
 
-.margin-above {
-	margin-top: 6px;
-}
-
 .margin-below {
 	margin-bottom: 10px;
 }
 
-.margin-left {
-	margin-left: 3px;
-}
-
-.margin-right {
-	margin-right: 3px;
-}
-
-.margin-sides {
-	margin-left: 3px;
-	margin-right: 3px;
-}
+.likeLink{
+    cursor: pointer;
+    cursor: hand;
+    background-color: transparent;
+    text-decoration: underline;
+    border:none;
+    color:blue;
+} 
