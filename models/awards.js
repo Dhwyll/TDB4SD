@@ -28,7 +28,7 @@ module.exports = function(sequelize, DataTypes) {
 		},
 		'Person_ID': {
 			type: DataTypes.INTEGER,
-			allowNull: false,
+			allowNull: true,
 			validate: {notEmpty: true}
 		},
 		'Won': {

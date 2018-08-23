@@ -546,40 +546,75 @@ $(document).ready(function(){
 
 					// And then create the awards
 					for (k = 0; k < awards.length; k++) {
-						if (awards[k].Award_ID == awardArray[j]) {
-							if (awards[k].Won) {
-								let $awardRow = $(
-									[
-										"<div class='row align-items-center'>",
-											"<div class='col-md-12'><span class='float-left'>",
-												awards[k].Category,
-												": </span><span class='float-right'>",
-												"<span class='boldItalic'>(won)</span> <span class='personLookup likeLink' data-id='",
-												awards[k].Person_ID,
-												"'><span class='boldItalic'>",awards[k].Name,"</span></span>",
-												"</span>",
-											"</div>",
-										"</div>"
-									].join("")
-								);									
-								rowsToAdd.push($awardRow);
-							} else {
-								let $awardRow = $(
-									[
-										"<div class='row align-items-center'>",
-											"<div class='col-md-12'><span class='float-left'>",
-												awards[k].Category,
-												": </span><span class='float-right'>",
-												"(nominated) <span class='personLookup likeLink' data-id='",
-												awards[k].Person_ID,
-												"'><span class='boldItalic'>",awards[k].Name,"</span></span>",
-												"</span>",
-											"</div>",
-										"</div>"
-									].join("")
-								);									
-								rowsToAdd.push($awardRow);
-
+						if (awards[k].Award_ID == awardArray[j]) {			// If the current award is in the right Award Type
+							if (awards[k].Won) {							// Then if the award was won
+								if (awards[k].Person_ID == null) {			// Then if the winner wasn't a person, create the entry for the theatre
+									let $awardRow = $(
+										[
+											"<div class='row align-items-center'>",
+												"<div class='col-md-12'><span class='float-left'>",
+													awards[k].Category,
+													": </span><span class='float-right'>",
+													"<span class='boldItalic'>(won)</span> <span class='theatreLookup likeLink' data-id='",
+													awards[k].Theatre_ID,
+													"'><span class='boldItalic'>",awards[k].Theatre,"</span></span>",
+													"</span>",
+												"</div>",
+											"</div>"
+										].join("")
+									);									
+									rowsToAdd.push($awardRow);	
+								} else {									// Else create the entry for the person
+									let $awardRow = $(
+										[
+											"<div class='row align-items-center'>",
+												"<div class='col-md-12'><span class='float-left'>",
+													awards[k].Category,
+													": </span><span class='float-right'>",
+													"<span class='boldItalic'>(won)</span> <span class='personLookup likeLink' data-id='",
+													awards[k].Person_ID,
+													"'><span class='boldItalic'>",awards[k].Name,"</span></span>",
+													"</span>",
+												"</div>",
+											"</div>"
+										].join("")
+									);									
+									rowsToAdd.push($awardRow);	
+								}
+							} else {									// Else the award is only a nomination
+								if (awards[k].Person_ID == null) {		// If the nominee isn't a person, create the entry for the theatre
+									let $awardRow = $(
+										[
+											"<div class='row align-items-center'>",
+												"<div class='col-md-12'><span class='float-left'>",
+													awards[k].Category,
+													": </span><span class='float-right'>",
+													"(nominated) <span class='theatreLookup likeLink' data-id='",
+													awards[k].Theatre_ID,
+													"'><span class='boldItalic'>",awards[k].Theatre,"</span></span>",
+													"</span>",
+												"</div>",
+											"</div>"
+										].join("")
+									);									
+									rowsToAdd.push($awardRow);	
+								} else {								// Else create the entry for the person
+									let $awardRow = $(
+										[
+											"<div class='row align-items-center'>",
+												"<div class='col-md-12'><span class='float-left'>",
+													awards[k].Category,
+													": </span><span class='float-right'>",
+													"(nominated) <span class='personLookup likeLink' data-id='",
+													awards[k].Person_ID,
+													"'><span class='boldItalic'>",awards[k].Name,"</span></span>",
+													"</span>",
+												"</div>",
+											"</div>"
+										].join("")
+									);									
+									rowsToAdd.push($awardRow);	
+								}
 							}
 						}
 					}

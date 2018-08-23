@@ -241,8 +241,9 @@ module.exports = function(app) {
 			"Theatre_Names, " +
 			"Award_Names, " +
 			"Award_Types, " +
-			"People_Names, " +
 			"Awards " +
+			"LEFT JOIN People_Names " +
+			"ON Awards.Person_ID = People_Names.ID " +
 			"WHERE (Awards.Production_ID = ";
 		let searchTerm = SqlString.escape(req.query.productionID);
 		searchTerm = searchTerm.substring(1, searchTerm.length - 1);
@@ -251,7 +252,7 @@ module.exports = function(app) {
 			"AND (Awards.Theatre_ID = Theatre_Names.ID) " +
 			"AND (Awards.Award_ID = Award_Names.ID) " +
 			"AND (Awards.Category_ID = Award_Types.ID) " +
-			"AND (Awards.Person_ID = People_Names.ID) " +
+			"AND (Awards.Person_ID = People_Names.ID OR Awards.Person_ID IS NULL) " +
 			"ORDER BY Award_ID, Category_ID, Won";
 		db.sequelize.query(sqlQuery)
 			.spread(function(data, netadata) {
