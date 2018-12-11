@@ -79,7 +79,7 @@ module.exports = function(app) {
 			"AND (Productions.Theatre_ID = Theatre_Names.ID) " +
 			"AND (Productions.Person_ID = People_Names.ID) " +
 			"AND (Productions.Position_ID = Position_Names.ID) " +
-			"ORDER BY People_Names.Last_Name, Position_Names.Position, Productions.Role";
+			"ORDER BY People_Names.Last_Name, People_Names.Name, Position_Names.Position, Productions.Role";
 		db.sequelize.query(sqlQuery)
 			.spread(function(data, metadata) {
 				res.json(data);
