@@ -276,6 +276,26 @@ $(document).ready(function(){
 		);
 		rowsToAdd.push($personnelHeader);
 
+		// Set the Executive Producer information
+		for (let i = 0; i < productionDetails.length; i++) {
+			if (productionDetails[i].Position == 'Executive Producer') {
+				let $executiveProducerName = $(
+					[
+						"<div class='row align-items-center'>",
+							"<div class='col-md-12'><span class='float-left'>",
+								productionDetails[i].Position,
+								": </span><span class='float-right'>",
+								"<span class='personLookup likeLink' data-id='",
+								productionDetails[i].Person_ID,
+								"'><span class='boldItalic'>",productionDetails[i].Name,"</span></span></span>",
+							"</div>",
+						"</div>"
+					].join("")
+				);
+				rowsToAdd.push($executiveProducerName);
+			};
+		};
+
 		// Set the Producer information
 		for (let i = 0; i < productionDetails.length; i++) {
 			if (productionDetails[i].Position == 'Producer') {
