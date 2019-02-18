@@ -356,9 +356,69 @@ $(document).ready(function(){
 			};
 		};
 
+		// Set the Associate Director information
+		for (let i = 0; i < productionDetails.length; i++) {
+			if (productionDetails[i].Position == 'Associate Director') {
+				let $asstDirectorName = $(
+					[
+						"<div class='row align-items-center'>",
+							"<div class='col-md-12'><span class='float-left'>",
+								productionDetails[i].Position,
+								": </span><span class='float-right'>",
+								"<span class='personLookup likeLink' data-id='",
+								productionDetails[i].Person_ID,
+								"'><span class='boldItalic'>",productionDetails[i].Name,"</span></span></span>",
+							"</div>",
+						"</div>"
+					].join("")
+				);
+				rowsToAdd.push($asstDirectorName);
+			};
+		};
+
 		// Set the Musical Director information
 		for (let i = 0; i < productionDetails.length; i++) {
 			if (productionDetails[i].Position == 'Musical Director') {
+				let $musicDirectorName = $(
+					[
+						"<div class='row align-items-center'>",
+							"<div class='col-md-12'><span class='float-left'>",
+								productionDetails[i].Position,
+								": </span><span class='float-right'>",
+								"<span class='personLookup likeLink' data-id='",
+								productionDetails[i].Person_ID,
+								"'><span class='boldItalic'>",productionDetails[i].Name,"</span></span></span>",
+							"</div>",
+						"</div>"
+					].join("")
+				);
+				rowsToAdd.push($musicDirectorName);
+			};
+		};
+
+		// Set the Assistant Musical Director information
+		for (let i = 0; i < productionDetails.length; i++) {
+			if (productionDetails[i].Position == 'Assistant Musical Director') {
+				let $musicDirectorName = $(
+					[
+						"<div class='row align-items-center'>",
+							"<div class='col-md-12'><span class='float-left'>",
+								productionDetails[i].Position,
+								": </span><span class='float-right'>",
+								"<span class='personLookup likeLink' data-id='",
+								productionDetails[i].Person_ID,
+								"'><span class='boldItalic'>",productionDetails[i].Name,"</span></span></span>",
+							"</div>",
+						"</div>"
+					].join("")
+				);
+				rowsToAdd.push($musicDirectorName);
+			};
+		};
+
+		// Set the Associate Musical Director information
+		for (let i = 0; i < productionDetails.length; i++) {
+			if (productionDetails[i].Position == 'Associate Musical Director') {
 				let $musicDirectorName = $(
 					[
 						"<div class='row align-items-center'>",
@@ -416,9 +476,30 @@ $(document).ready(function(){
 			};
 		};
 
+		// Set the Associate Choreographer information
+		for (let i = 0; i < productionDetails.length; i++) {
+			if (productionDetails[i].Position == 'Associate Choreographer') {
+				let $asstChoreographerName = $(
+					[
+						"<div class='row align-items-center'>",
+							"<div class='col-md-12'><span class='float-left'>",
+								productionDetails[i].Position,
+								": </span><span class='float-right'>",
+								"<span class='personLookup likeLink' data-id='",
+								productionDetails[i].Person_ID,
+								"'><span class='boldItalic'>",productionDetails[i].Name,"</span></span></span>",
+							"</div>",
+						"</div>"
+					].join("")
+				);
+				rowsToAdd.push($asstChoreographerName);
+			};
+		};
+
 		// Set everybody else's information
-		let restArray = ['Producer', 'Director', 'Assistant Director', 'Musical Director', 'Choreographer',
-			'Assistant Choreographer', 'Actor', 'Musician', 'Author', 'Book', 'Composer', 'Lyricist'];
+		let restArray = ['Executive Producer', 'Producer', 'Director', 'Assistant Director', 'Associate Director',
+			'Music Director', 'Assistant Music Director', 'Associate Music Director', 'Choreographer',
+			'Assistant Choreographer', 'Associate Choreographer', 'Actor', 'Musician', 'Author', 'Book', 'Composer', 'Lyricist'];
 		for (let i = 0; i < productionDetails.length; i++) {
 			if ($.inArray(productionDetails[i].Position, restArray) < 0) {
 				let $restName = $(
