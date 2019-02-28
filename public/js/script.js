@@ -647,7 +647,7 @@ $(document).ready(function(){
 			initializeAwardDetailRows(data);
 		});
 
-		// This function resets the Production Results displayed with new results from the database
+		// This function resets the Awards Results displayed with new results from the database
 		function initializeAwardDetailRows(awards) {
 			if (awards.length > 0) {
 				// If there are awards, set the Awards header and push to rowsToAdd
@@ -664,22 +664,31 @@ $(document).ready(function(){
 				);
 				rowsToAdd.push($awardsHeader);
 
-				// Create an array that indicates 
+				// Create an array that indicates which awards
 				let currentAwardType = awards[0].Award_ID;
-				let awardArray = [currentAwardType];
+				let currentAwardSet = {
+					Award_ID: currentAwardType,
+					Award: awards[0].Award
+				}
+				let awardArray = [currentAwardSet];
 				for (i = 0; i < awards.length; i++) {
 					if (awards[i].Award_ID != currentAwardType) {
-						awardArray.push(awards[i].Award_ID);
+						currentAwardSet = {
+							Award_ID: awards[i].Award_ID,
+							Award: awards[i].Award
+						}
+						awardArray.push(currentAwardSet);
 						currentAwardType = awards[i].Award_ID;
 					}
 				}
+
 				// For each type of award, create a header for it
 				for (j = 0; j < awardArray.length; j++) {
 					let $awardTypeHeader = $(
 						[
 							"<div class='row'>",
 								"<div class='col-md-12'><span class='boldItalic'>",
-								awardArray[j].Award,
+									awardArray[j].Award,
 								" Awards</span></div>",
 							"</div>"
 						].join("")
@@ -688,75 +697,50 @@ $(document).ready(function(){
 
 					// And then create the awards
 					for (k = 0; k < awards.length; k++) {
-						if (awards[k].Award_ID == awardArray[j]) {			// If the current award is in the right Award Type
-							if (awards[k].Won) {							// Then if the award was won
-								if (awards[k].Person_ID == null) {			// Then if the winner wasn't a person, create the entry for the theatre
-									let $awardRow = $(
-										[
-											"<div class='row align-items-center'>",
-												"<div class='col-md-12'><span class='float-left'>",
+						if (awards[k].Award_ID == awardArray[j].Award_ID) {
+							if (awards[k].Won) {
+								let $awardRow = $(
+									[
+										"<div class='row align-items-center margin-below'>",
+											"<div class='col-md-12'>",
+												"<li class='list-group-item results-item'>",
+													awards[k].Award_Date.slice(0, 4),
+													" ",
 													awards[k].Category,
-													": </span><span class='float-right'>",
-													"<span class='boldItalic'>(won)</span> <span class='theatreLookup likeLink' data-id='",
-													awards[k].Theatre_ID,
-													"'><span class='boldItalic'>",awards[k].Theatre,"</span></span>",
-													"</span>",
-												"</div>",
-											"</div>"
-										].join("")
-									);									
-									rowsToAdd.push($awardRow);	
-								} else {									// Else create the entry for the person
-									let $awardRow = $(
-										[
-											"<div class='row align-items-center'>",
-												"<div class='col-md-12'><span class='float-left'>",
+													" <span class='boldItalic'>(won)</span> ",
+													"<span class='productionLookup likeLink' data-id='",
+													awards[k].Production_ID,
+													"'><span class='boldItalic'>",
+													awards[k].Title,
+													"</span></span>",
+												"</li>",
+											"</div>",
+										"</div>"
+									].join("")
+								);									
+								rowsToAdd.push($awardRow);
+							} else {
+								let $awardRow = $(
+									[
+										"<div class='row align-items-center margin-below'>",
+											"<div class='col-md-12'>",
+												"<li class='list-group-item results-item'>",
+													awards[k].Award_Date.slice(0, 4),
+													" ",
 													awards[k].Category,
-													": </span><span class='float-right'>",
-													"<span class='boldItalic'>(won)</span> <span class='personLookup likeLink' data-id='",
-													awards[k].Person_ID,
-													"'><span class='boldItalic'>",awards[k].Name,"</span></span>",
-													"</span>",
-												"</div>",
-											"</div>"
-										].join("")
-									);									
-									rowsToAdd.push($awardRow);	
-								}
-							} else {									// Else the award is only a nomination
-								if (awards[k].Person_ID == null) {		// If the nominee isn't a person, create the entry for the theatre
-									let $awardRow = $(
-										[
-											"<div class='row align-items-center'>",
-												"<div class='col-md-12'><span class='float-left'>",
-													awards[k].Category,
-													": </span><span class='float-right'>",
-													"(nominated) <span class='theatreLookup likeLink' data-id='",
-													awards[k].Theatre_ID,
-													"'><span class='boldItalic'>",awards[k].Theatre,"</span></span>",
-													"</span>",
-												"</div>",
-											"</div>"
-										].join("")
-									);									
-									rowsToAdd.push($awardRow);	
-								} else {								// Else create the entry for the person
-									let $awardRow = $(
-										[
-											"<div class='row align-items-center'>",
-												"<div class='col-md-12'><span class='float-left'>",
-													awards[k].Category,
-													": </span><span class='float-right'>",
-													"(nominated) <span class='personLookup likeLink' data-id='",
-													awards[k].Person_ID,
-													"'><span class='boldItalic'>",awards[k].Name,"</span></span>",
-													"</span>",
-												"</div>",
-											"</div>"
-										].join("")
-									);									
-									rowsToAdd.push($awardRow);	
-								}
+													" (nominated) ",
+													"<span class='productionLookup likeLink' data-id='",
+													awards[k].Production_ID,
+													"'><span class='boldItalic'>",
+													awards[k].Title,
+													"</span></span>",
+												"</li>",
+											"</div>",
+										"</div>"
+									].join("")
+								);									
+								rowsToAdd.push($awardRow);
+
 							}
 						}
 					}
@@ -764,6 +748,124 @@ $(document).ready(function(){
 			}
 			$detailsTable.prepend(rowsToAdd);
 		}
+
+		// // This function resets the Production Results displayed with new results from the database
+		// function initializeAwardDetailRows(awards) {
+		// 	if (awards.length > 0) {
+		// 		// If there are awards, set the Awards header and push to rowsToAdd
+		// 		let $awardsHeader = $(
+		// 			[
+		// 				"<div class='row'>",
+		// 					"<div class='col-md-12'><br><hr><br>",
+		// 					"</div>",
+		// 				"</div>",
+		// 				"<div class='row'>",
+		// 					"<div class='col-md-12'><h2>Awards</h2></div>",
+		// 				"</div>"
+		// 			].join("")
+		// 		);
+		// 		rowsToAdd.push($awardsHeader);
+
+		// 		// Create an array that indicates 
+		// 		let currentAwardType = awards[0].Award_ID;
+		// 		let awardArray = [currentAwardType];
+		// 		for (i = 0; i < awards.length; i++) {
+		// 			if (awards[i].Award_ID != currentAwardType) {
+		// 				awardArray.push(awards[i].Award_ID);
+		// 				currentAwardType = awards[i].Award_ID;
+		// 			}
+		// 		}
+		// 		// For each type of award, create a header for it
+		// 		for (j = 0; j < awardArray.length; j++) {
+		// 			let $awardTypeHeader = $(
+		// 				[
+		// 					"<div class='row'>",
+		// 						"<div class='col-md-12'><span class='boldItalic'>",
+		// 						awards[j].Award,
+		// 						" Awards</span></div>",
+		// 					"</div>"
+		// 				].join("")
+		// 			);
+		// 			rowsToAdd.push($awardTypeHeader);
+
+		// 			// And then create the awards
+		// 			for (k = 0; k < awards.length; k++) {
+		// 				if (awards[k].Award_ID == awardArray[j]) {			// If the current award is in the right Award Type
+		// 					if (awards[k].Won) {							// Then if the award was won
+		// 						if (awards[k].Person_ID == null) {			// Then if the winner wasn't a person, create the entry for the theatre
+		// 							let $awardRow = $(
+		// 								[
+		// 									"<div class='row align-items-center'>",
+		// 										"<div class='col-md-12'><span class='float-left'>",
+		// 											awards[k].Category,
+		// 											": </span><span class='float-right'>",
+		// 											"<span class='boldItalic'>(won)</span> <span class='theatreLookup likeLink' data-id='",
+		// 											awards[k].Theatre_ID,
+		// 											"'><span class='boldItalic'>",awards[k].Theatre,"</span></span>",
+		// 											"</span>",
+		// 										"</div>",
+		// 									"</div>"
+		// 								].join("")
+		// 							);									
+		// 							rowsToAdd.push($awardRow);	
+		// 						} else {									// Else create the entry for the person
+		// 							let $awardRow = $(
+		// 								[
+		// 									"<div class='row align-items-center'>",
+		// 										"<div class='col-md-12'><span class='float-left'>",
+		// 											awards[k].Category,
+		// 											": </span><span class='float-right'>",
+		// 											"<span class='boldItalic'>(won)</span> <span class='personLookup likeLink' data-id='",
+		// 											awards[k].Person_ID,
+		// 											"'><span class='boldItalic'>",awards[k].Name,"</span></span>",
+		// 											"</span>",
+		// 										"</div>",
+		// 									"</div>"
+		// 								].join("")
+		// 							);									
+		// 							rowsToAdd.push($awardRow);	
+		// 						}
+		// 					} else {									// Else the award is only a nomination
+		// 						if (awards[k].Person_ID == null) {		// If the nominee isn't a person, create the entry for the theatre
+		// 							let $awardRow = $(
+		// 								[
+		// 									"<div class='row align-items-center'>",
+		// 										"<div class='col-md-12'><span class='float-left'>",
+		// 											awards[k].Category,
+		// 											": </span><span class='float-right'>",
+		// 											"(nominated) <span class='theatreLookup likeLink' data-id='",
+		// 											awards[k].Theatre_ID,
+		// 											"'><span class='boldItalic'>",awards[k].Theatre,"</span></span>",
+		// 											"</span>",
+		// 										"</div>",
+		// 									"</div>"
+		// 								].join("")
+		// 							);									
+		// 							rowsToAdd.push($awardRow);	
+		// 						} else {								// Else create the entry for the person
+		// 							let $awardRow = $(
+		// 								[
+		// 									"<div class='row align-items-center'>",
+		// 										"<div class='col-md-12'><span class='float-left'>",
+		// 											awards[k].Category,
+		// 											": </span><span class='float-right'>",
+		// 											"(nominated) <span class='personLookup likeLink' data-id='",
+		// 											awards[k].Person_ID,
+		// 											"'><span class='boldItalic'>",awards[k].Name,"</span></span>",
+		// 											"</span>",
+		// 										"</div>",
+		// 									"</div>"
+		// 								].join("")
+		// 							);									
+		// 							rowsToAdd.push($awardRow);	
+		// 						}
+		// 					}
+		// 				}
+		// 			}
+		// 		}
+		// 	}
+		// 	$detailsTable.prepend(rowsToAdd);
+		// }
 
 	}
 
