@@ -688,7 +688,7 @@ $(document).ready(function(){
 						[
 							"<div class='row'>",
 								"<div class='col-md-12'><span class='boldItalic'>",
-									awards[j].Award,
+									awardArray[j].Award,
 								" Awards</span></div>",
 							"</div>"
 						].join("")
