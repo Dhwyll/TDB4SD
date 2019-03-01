@@ -253,7 +253,7 @@ module.exports = function(app) {
 			"AND (Awards.Award_ID = Award_Names.ID) " +
 			"AND (Awards.Category_ID = Award_Types.ID) " +
 			"AND (Awards.Person_ID = People_Names.ID OR Awards.Person_ID IS NULL) " +
-			"ORDER BY Award_ID, Category_ID, Won, Name, People_Names.Last_Name";
+			"ORDER BY Award_ID, Category_ID, Won, People_Names.Last_Name, Name";
 		db.sequelize.query(sqlQuery)
 			.spread(function(data, netadata) {
 				res.json(data);
