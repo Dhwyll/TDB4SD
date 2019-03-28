@@ -7,7 +7,8 @@ body {
 	padding-left: 40px !important;
 }
 
-h1 {
+.title-display {
+	font-size: 54pt;
 	-webkit-text-stroke: 1px black;
 	color: white;
 	text-shadow:
@@ -53,4 +54,26 @@ h1 {
     text-decoration: underline;
     border:none;
     color:blue;
-} 
+}
+
+@media screen and (max-width: 1024px) {
+  .title-display {
+		font-size: 48pt;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .title-display {
+		font-size: 36pt;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .title-display {
+		font-size: 18pt;
+	}
+	
+	.jumboTextStyle {
+		font-size: 12pt;
+	}
+}
