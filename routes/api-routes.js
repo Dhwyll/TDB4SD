@@ -13,6 +13,28 @@ var SqlString = require('sqlstring');
 // =============================================================
 module.exports = function(app) {
 
+	// GET route for Carousel information
+	app.get("/api/Carousel", (req, res) => {
+		let sqlQuery = "SELECT Carousels.Production_Title, " +
+			"Carousels.Open_Date, " +
+			"Carousels.Close_Date, " +
+			"Carousels.Info, " +
+			"Carousels.URL, " +
+			"Carousels.Image " +
+			"FROM Carousels " +
+			"WHERE (Open_Date <= (NOW() + INTERVAL 28 DAY) AND (Close_Date >= NOW())) " +
+			"ORDER BY Carousels.Close_Date, Carousels.Production_Title";
+		db.sequelize.query(sqlQuery)
+			.spread(function(data, metadata) {
+				res.json(data);
+			});
+	});
+
+	// GET route for Calendar information
+	app.get("/api/Calendar", (req, res) => {
+
+	});
+
 	// GET route for getting all of the Productions
 	app.get("/api/Production", ( req, res ) => {
 		// Retrieve all of the Productions from the database and res.json them back to the user

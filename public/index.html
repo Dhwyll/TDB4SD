@@ -8,14 +8,14 @@
 		<meta name="author" content="Brian P. Evans">
 		<title>Theatre Database 4 San Diego</title>
 		<!-- Latest compiled and minified CSS & JS -->
-		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
+		<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 		<link rel="stylesheet" href="./css/styles.css" media="screen" title="no title">
 		<link href="https://fonts.googleapis.com/css?family=Lato:400,400i,700,700i" rel="stylesheet">
 	</head>
 
 	<body>
 		<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-			<a class="navbar-brand" href="#">TDB4SD</a>
+			<a class="navbar-brand" href="/">TDB4SD</a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			</button>
@@ -26,10 +26,13 @@
 						<a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="mailto:tdb4sd@gmail.com">Email</a>
+						<a class="nav-link" href="mailto:support@tdb4sd.com">Email</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="#" data-toggle="modal" data-target="#exampleModalCenter">More Info</a>
+						<a class="nav-link" href="#" data-toggle="modal" data-target="#exampleModalCenter">About Us</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link hoverPointer" id="calendarLink">Calendar</a>
 					</li>
 					<!-- <li class="nav-item">
 						<a class="nav-link" href="/login.html">Log In</a>
@@ -69,7 +72,33 @@
 					<p class="jumboTextStyle">If you have information about a production that should be added to the database, send an <a href="mailto:tdb4sd@gmail.com">email</a>.</p>
 				</div>
 			</div>
+			<!-- End Main Jumbotron -->
 
+			<!-- Carousel Container -->
+			<div class="container carouselTextStyle" id="carouselContainer">
+				<div class="row">
+					<div class="col-sm-12 text-center">
+						<h1 class="nowPlaying">Playing Around Town</h1>
+					</div>
+				</div>
+				<div class="carousel slide" data-ride="carousel" id="homePageCarousel">
+					<!-- Slideshow Section -->
+					<div class="carousel-inner">
+						<span class="carouselEntries"></span>
+					</div>
+
+					<!-- Left and Right Controls -->
+					<a class="carousel-control-prev" href="#homePageCarousel" data-slide="prev">
+						<span class="carousel-control-prev-icon"></span>
+					</a>
+					<a class="carousel-control-next" href="#homePageCarousel" data-slide="next">
+						<span class="carousel-control-next-icon"></span>
+					</a>
+				</div>
+			</div>
+			<!-- End Carousel Container -->
+
+			<!-- Search Results Container -->
 			<div class="container">
 				<div class="row">
 					<!-- Left Column with search results  -->
@@ -102,7 +131,16 @@
 					</div>
 				</div>
 
-			</div> <!-- /container -->
+			</div>
+			<!-- End Search Results Container -->
+
+			<!-- Calendar Container -->
+			<div class="container" id="calendarContainer">
+				<div class="row">
+					I am the Calendar.
+				</div>
+			</div>
+			<!-- End Calendar Container -->
 		</main>
 
 		<!-- Modal -->
@@ -122,7 +160,7 @@
 							then click on the buttons in the results to chase down more specifics.
 					</P>
 					<P>But, we need your info.  If you have done a show that you want in the database, please send us an
-						<a href="mailto:tdb4sd@gmail.com">email</a>.  We'll need to know:
+						<a href="mailto:program@tdb4sd.com">email</a>.  We'll need to know:
 					</P>
 					<ul>
 						<li>Theatre</li>
@@ -133,7 +171,7 @@
 						<li>All the people involved and what they did (producer, director, tech, cast, orchestra, etc.)</li>
 						<li>Any awards the show may have won (award, category, who, year)</li>
 					</ul>
-					<P>If you have any questions or concerns, <a href="mailto:tdb4sd@gmail.com">contact us</a>.</P>
+					<P>If you have any questions or concerns, <a href="mailto:support@tdb4sd.com">contact us</a>.</P>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-outline-dark" data-dismiss="modal">Close</button>
@@ -144,14 +182,14 @@
 
 		<footer class="container">
 			<hr>
-			<p>&copy; Brian P. Evans 2018</p>
+			<p>&copy; Brian P. Evans 2019</p>
 			<p><a href=https://pngtree.com/freebackground/spotlight-stage-background_22599.html>Header Background Graphic from pngtree.com</a></p>
 		</footer>
 		<!-- Custom Script -->
 		<!-- jQuery first, then Popper.js, then Bootstrap JS -->
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em" crossorigin="anonymous"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 		<script src="js/script.js" type="text/javascript"></script>
 
 	</body>

@@ -1,20 +1,179 @@
 $(document).ready(function(){
 
-	// Our initial Productions Results array
+	// Create references for the various sections
 	const $productionsResultsTable = $(".productionsResultsTable");
 	const $personResultsTable = $(".personResultsTable");
 	const $theatreResultsTable = $(".theatreResultsTable");
 	const $detailsTable = $(".detailsTable");
+	const $carouselEntries = $(".carouselEntries");
 
 
 
 
 
-	// Make sure the various Results containers are hidden at the start.
-	$("#productionResultsContainer").hide();
-	$("#personResultsContainer").hide();
-	$("#theatreResultsContainer").hide();
-	$("#detailsContainer").hide();
+	// Hide all the containers
+	function hideContainers() {
+		$("#productionResultsContainer").hide();
+		$("#personResultsContainer").hide();
+		$("#theatreResultsContainer").hide();
+		$("#detailsContainer").hide();
+		$("#carouselContainer").hide();
+		$("#calendarContainer").hide();
+	}
+
+
+
+
+	// Make sure the various containers are hidden at the start.
+	hideContainers();
+
+
+
+
+
+	// Convert a date from SQL into a date object for JavaScript
+	function sqlToJavaScriptDate(newDate) {
+		const dateStr = newDate.split('-');
+		return(new Date(dateStr[0], dateStr[1] - 1, dateStr[2]));
+	}
+
+	
+
+
+	// Convert get a random background color
+	function randomBackground() {
+		switch (Math.floor(Math.random() * 7)) {
+			case 0:
+				return ('bg-primary');
+			case 1:
+				return('bg-secondary');
+			case 2:
+				return('bg-success');
+			case 3:
+				return('bg-danger');
+			case 4:
+				return('bg-warning');
+			case 5:
+				return('bg-info');
+			case 6:
+				return('bg-dark');
+		}
+	}
+
+
+
+
+	// This function constructs the first Carousel entry
+	function createFirstCarouselEntry(results) {
+		if (results.Image == null) {
+			let openDate = sqlToJavaScriptDate(results.Open_Date);
+			let closeDate = sqlToJavaScriptDate(results.Close_Date);
+			let $newInputRow = $(
+				[
+					"<div class='carousel-item active'>",
+						"<a href='", results.URL, "' target='_blank' class='carouselLink'>",
+							"<div class='d-flex h-100 align-items-center justify-content-center text-center " + randomBackground() + " carouselPadding'>",
+								"<div class='carouselTextBackground'>",
+									"<h1>", results.Production_Title, "<br></h1>",
+									"<h2><strong>", openDate.toLocaleString('en-us', { month: 'long' }), " ", openDate.getDate(), " - ", closeDate.toLocaleString('en-us', { month: 'long' }), " ", closeDate.getDate(), "</strong></h2>",
+									"<h3>", results.Info, "</h3>",
+								"</div>",
+							"</div>",
+						"</a>",
+					"</div>"
+				].join("")
+			);
+			return $newInputRow;
+		} else {
+			console.log("creating backgrounds with random");
+			console.log(randomBackground());
+			let openDate = sqlToJavaScriptDate(results.Open_Date);
+			let closeDate = sqlToJavaScriptDate(results.Close_Date);
+			let $newInputRow = $(
+				[
+					"<div class='carousel-item active'>",
+						"<a href='", results.URL, "' target='_blank' class='carouselLink'>",
+							"<div class='d-flex h-100 align-items-center justify-content-center text-center bg-dark carouselPadding carouselBackgrounds' style='background-image: url(", results.Image, ")'>",
+								"<div class='carouselTextBackground'>",
+									"<h1>", results.Production_Title, "<br></h1>",
+									"<h2><strong>", openDate.toLocaleString('en-us', { month: 'long' }), " ", openDate.getDate(), " - ", closeDate.toLocaleString('en-us', { month: 'long' }), " ", closeDate.getDate(), "</strong></h2>",
+									"<h3>", results.Info, "</h3>",
+								"</div>",
+							"</div>",
+						"</a>",
+					"</div>"
+				].join("")
+			);
+			return $newInputRow;
+		}
+	}
+
+	// This function constructs the rest of the Carousel entries
+	function createRestCarouselEntries(results) {
+		if (results.Image == null) {
+			let openDate = sqlToJavaScriptDate(results.Open_Date);
+			let closeDate = sqlToJavaScriptDate(results.Close_Date);
+			let $newInputRow = $(
+				[
+					"<div class='carousel-item'>",
+						"<a href='", results.URL, "' target='_blank' class='carouselLink'>",
+							"<div class='d-flex h-100 align-items-center justify-content-center text-center " + randomBackground() + " carouselPadding'>",
+								"<div class='carouselTextBackground'>",
+									"<h1>", results.Production_Title, "<br></h1>",
+									"<h2><strong>", openDate.toLocaleString('en-us', { month: 'long' }), " ", openDate.getDate(), " - ", closeDate.toLocaleString('en-us', { month: 'long' }), " ", closeDate.getDate(), "</strong></h2>",
+									"<h3>", results.Info, "</h3>",
+								"</div>",
+							"</div>",
+						"</a>",
+					"</div>"
+				].join("")
+			);
+			return $newInputRow;
+		} else {
+			let openDate = sqlToJavaScriptDate(results.Open_Date);
+			let closeDate = sqlToJavaScriptDate(results.Close_Date);
+			let $newInputRow = $(
+				[
+					"<div class='carousel-item'>",
+						"<a href='", results.URL, "' target='_blank' class='carouselLink'>",
+							"<div class='d-flex h-100 align-items-center justify-content-center text-center bg-dark carouselPadding carouselBackgrounds' style='background-image: url(", results.Image, ")'>",
+								"<div class='carouselTextBackground'>",
+									"<h1>", results.Production_Title, "<br></h1>",
+									"<h2><strong>", openDate.toLocaleString('en-us', { month: 'long' }), " ", openDate.getDate(), " - ", closeDate.toLocaleString('en-us', { month: 'long' }), " ", closeDate.getDate(), "</strong></h2>",
+									"<h3>", results.Info, "</h3>",
+								"</div>",
+							"</div>",
+						"</a>",
+					"</div>"
+				].join("")
+			);
+			return $newInputRow;
+		}
+	}
+
+
+
+
+	// Grab the Carousel information
+	$.get("/api/Carousel", function(data) {
+		if (data.length == 0) {
+			$("#carouselContainer").hide();
+		} else {
+			for (let i = 0; i < data.length; i++) {
+				if (i == 0) {
+					$("#carouselContainer").show();
+					$carouselEntries.empty();
+					let rowsToAdd = [];
+					rowsToAdd.push(createFirstCarouselEntry(data[i]));
+					$carouselEntries.append(rowsToAdd);
+				} else {
+					let rowsToAdd = [];
+					rowsToAdd.push(createRestCarouselEntries(data[i]));
+					$carouselEntries.append(rowsToAdd);
+				}
+			}
+		}
+	});
 
 
 
@@ -56,6 +215,7 @@ $(document).ready(function(){
 
 	// This function constructs a results row
 	function createNewProductionRow(results) {
+		let openDate = sqlToJavaScriptDate(results.Open_Date);
 		var $newInputRow = $(
 			[
 				"<div class='row align-items-center margin-below'>",
@@ -64,7 +224,7 @@ $(document).ready(function(){
 							"<span class='boldItalic'>",
 							results.Title,
 							"</span>",
-							"<br>", results.Theatre, "<br>", results.Open_Date,
+							"<br>", results.Theatre, "<br>", openDate.toLocaleString('en-us', { month: 'long' }), " ", openDate.getDate(), ", ", openDate.getFullYear(),
 						"</li>",
 					"</div>",
 					"<div class='col-md-3'>",
@@ -1198,6 +1358,25 @@ $(document).ready(function(){
 
 
 
+
+	function getCalendar(currDate) {
+		$("#calendarContainer").show();
+		console.log("The current date is " + currDate);
+	}
+
+
+
+
+	// Load the Calendar
+	$("#calendarLink").on("click", function() {
+		event.preventDefault();
+		hideContainers();
+		getCalendar(Date());
+	});
+
+
+
+
 	// When a Search Type is chosen, update the dropdown button
 	$(function() {
 		$(".dropdown-menu a").click(function(){
@@ -1235,12 +1414,9 @@ $(document).ready(function(){
 	// This functions calls the various searches
 	$("#searchButton").on("click", function(event) {
 		event.preventDefault();
-		$("#productionResultsContainer").hide();
-		$("#personResultsContainer").hide();
-		$("#theatreResultsContainer").hide();
-		$("#detailsContainer").hide();
-		var newSearch = $("#searchInput").val().trim();
-		var newSearchType = $("#searchType").text().trim();
+		hideContainers();
+		let newSearch = $("#searchInput").val().trim();
+		let newSearchType = $("#searchType").text().trim();
 		if (newSearch.length > 0) {
 			switch(newSearchType) {
 				case 'All':
