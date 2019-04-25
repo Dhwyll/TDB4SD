@@ -129,4 +129,8 @@ body {
 	.jumboTextStyle {
 		font-size: 12pt;
 	}
+
+	.JumboHeaderImg {
+		padding-top: 50px;
+	}
 }
