@@ -124,13 +124,10 @@ body {
 @media screen and (max-width: 425px) {
 	.title-display {
 		font-size: 18pt;
+		padding-top: 50px;
 	}
 
 	.jumboTextStyle {
 		font-size: 12pt;
-	}
-
-	.JumboHeaderImg {
-		padding-top: 50px;
 	}
 }
