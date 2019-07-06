@@ -411,7 +411,7 @@ $(document).ready(function(){
 			[
 				"<div class='row'>",
 					"<div class='col-md-12'>Opening Date: ",
-						productionDetails[0].Open_Date,
+						productionDetails[0].Open_Date.toLocaleString('en-us', { month: 'long' }), " ", openDate.getDate(), ", ", openDate.getFullYear(),
 					"</div>",
 				"</div>"
 			].join("")
@@ -423,7 +423,7 @@ $(document).ready(function(){
 			[
 				"<div class='row'>",
 					"<div class='col-md-12'>Closing Date: ",
-						productionDetails[0].Close_Date,
+						productionDetails[0].Close_Date.toLocaleString('en-us', { month: 'long' }), " ", openDate.getDate(), ", ", openDate.getFullYear(),
 					"</div>",
 				"</div>"
 			].join("")
