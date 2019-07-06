@@ -407,28 +407,32 @@ $(document).ready(function(){
 		rowsToAdd.push($theatreRow);
 
 		// Set the Opening Date and push to rowsToAdd
-		let $openDate = $(
+
+		let openDate = sqlToJavaScriptDate(productionDetails[0].Open_Date);
+		let $openingDate = $(
 			[
 				"<div class='row'>",
 					"<div class='col-md-12'>Opening Date: ",
-						productionDetails[0].Open_Date.toLocaleString('en-us', { month: 'long' }), " ", openDate.getDate(), ", ", openDate.getFullYear(),
+						openDate.toLocaleString('en-us', { month: 'long' }), " ", openDate.getDate(), ", ", openDate.getFullYear(),
 					"</div>",
 				"</div>"
 			].join("")
 		);
-		rowsToAdd.push($openDate);
+		rowsToAdd.push($openingDate);
 
 		// Set the Closing Date and push to rowsToAdd
-		let $closeDate = $(
+
+		let closeDate = sqlToJavaScriptDate(productionDetails[0].Close_Date);
+		let $closingDate = $(
 			[
 				"<div class='row'>",
 					"<div class='col-md-12'>Closing Date: ",
-						productionDetails[0].Close_Date.toLocaleString('en-us', { month: 'long' }), " ", openDate.getDate(), ", ", openDate.getFullYear(),
+						closeDate.toLocaleString('en-us', { month: 'long' }), " ", closeDate.getDate(), ", ", closeDate.getFullYear(),
 					"</div>",
 				"</div>"
 			].join("")
 		);
-		rowsToAdd.push($closeDate);
+		rowsToAdd.push($closingDate);
 
 		// Set the Number of Performances and push to rowsToAdd
 		let $numberPerformances = $(
