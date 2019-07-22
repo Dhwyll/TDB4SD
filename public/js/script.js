@@ -883,7 +883,7 @@ $(document).ready(function(){
 						let $awardTypeHeader = $(								// Put a spacer before the header
 							[
 								"<div class='row'>",
-									"<div class='col-md-12 awardPadding'><span class='boldItalic'>",
+									"<div class='col-md-12 awardPadding'><span class='boldItalic'><br>",
 										awardArray[j].Award,
 									" Awards</span></div>",
 								"</div>"
