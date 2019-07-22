@@ -868,16 +868,30 @@ $(document).ready(function(){
 
 				// For each type of award, create a header for it
 				for (j = 0; j < awardArray.length; j++) {
-					let $awardTypeHeader = $(
-						[
-							"<div class='row'>",
-								"<div class='col-md-12'><span class='boldItalic'>",
-									awardArray[j].Award,
-								" Awards</span></div>",
-							"</div>"
-						].join("")
-					);
-					rowsToAdd.push($awardTypeHeader);
+					if (j == 0) {												// If the first set of awards
+						let $awardTypeHeader = $(								// Then no spacer before the header
+							[
+								"<div class='row'>",
+									"<div class='col-md-12'><span class='boldItalic'>",
+										awardArray[j].Award,
+									" Awards</span></div>",
+								"</div>"
+							].join("")
+						);
+						rowsToAdd.push($awardTypeHeader);	
+					} else {													// Else
+						let $awardTypeHeader = $(								// Put a spacer before the header
+							[
+								"<div class='row'>",
+									"<div class='col-md-12'></div>",
+									"<div class='col-md-12'><span class='boldItalic'>",
+										awardArray[j].Award,
+									" Awards</span></div>",
+								"</div>"
+							].join("")
+						);
+						rowsToAdd.push($awardTypeHeader);	
+					}
 
 					// And then create the awards
 					for (k = 0; k < awards.length; k++) {
