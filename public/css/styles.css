@@ -109,6 +109,10 @@ body {
 	padding: 10px;
 }
 
+.awardPadding {
+	padding-top: 12pt;
+}
+
 @media screen and (max-width: 1024px) {
 	.title-display {
 		font-size: 48pt;
