@@ -294,7 +294,7 @@ module.exports = function(app) {
 			"Award_Names.ID AS 'Award_ID', " +
 			"Award_Names.Awards AS 'Award', " +
 			"Award_Types.ID AS 'Category_ID', " +
-			"Award_Types.category AS 'Category', " +
+			"Award_Types.Category AS 'Category', " +
 			"People_Names.ID AS 'Person_ID', " +
 			"People_Names.Name AS 'Name', " +
 			"Awards.won AS 'Won' " +
@@ -313,7 +313,7 @@ module.exports = function(app) {
 			"AND (Awards.award_ID = Award_Names.ID) " +
 			"AND (Awards.category_ID = Award_Types.ID) " +
 			"AND (Awards.person_ID = People_Names.ID) " +
-			"ORDER BY Award_ID, Award_Date DESC, Category_ID, Won";
+			"ORDER BY Award, Award_Date DESC, Won, Category";
 		db.sequelize.query(sqlQuery)
 			.spread(function(data, netadata) {
 				res.json(data);
