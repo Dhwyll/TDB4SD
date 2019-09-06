@@ -49,7 +49,7 @@ module.exports = function(app) {
 		searchTerm = searchTerm.substring(1, searchTerm.length - 1);
 		sqlQuery += searchTerm;
 		sqlQuery += "%') AND (Production_Names.Theatre_ID = Theatre_Names.ID) " +
-			"ORDER BY Production_Names.Open_Date";
+			"ORDER BY Production_Names.Open_Date DESC";
 		db.sequelize.query(sqlQuery)
 			.spread(function(data, metadata) {
 				res.json(data);
