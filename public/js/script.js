@@ -372,6 +372,46 @@ $(document).ready(function(){
 			};
 		};
 
+		// Set the Orchestrations information
+		for (let i = 0; i < productionDetails.length; i++) {
+			if (productionDetails[i].Position == 'Orchestrations') {
+				let $orchestrationsName = $(
+					[
+						"<div class='row align-items-center'>",
+							"<div class='col-md-12'><span class='float-left'>",
+								productionDetails[i].Position,
+								": </span><span class='float-right'>",
+								"<span class='personLookup likeLink' data-id='",
+								productionDetails[i].Person_ID,
+								"'><span class='boldItalic'>",productionDetails[i].Name,"</span></span></span>",
+							"</div>",
+						"</div>"
+					].join("")
+				);
+				rowsToAdd.push($orchestrationsName);
+			};
+		};
+
+		// Set the Arrangements information
+		for (let i = 0; i < productionDetails.length; i++) {
+			if (productionDetails[i].Position == 'Arrangements') {
+				let $arrangementsName = $(
+					[
+						"<div class='row align-items-center'>",
+							"<div class='col-md-12'><span class='float-left'>",
+								productionDetails[i].Position,
+								": </span><span class='float-right'>",
+								"<span class='personLookup likeLink' data-id='",
+								productionDetails[i].Person_ID,
+								"'><span class='boldItalic'>",productionDetails[i].Name,"</span></span></span>",
+							"</div>",
+						"</div>"
+					].join("")
+				);
+				rowsToAdd.push($arrangementsName);
+			};
+		};
+
 		// Set the Translator information
 		for (let i = 0; i < productionDetails.length; i++) {
 			if (productionDetails[i].Position == 'Translator') {
@@ -724,7 +764,7 @@ $(document).ready(function(){
 		let restArray = ['Executive Producer', 'Producer', 'Director', 'Assistant Director', 'Associate Director',
 			'Music Director', 'Assistant Music Director', 'Associate Music Director', 'Choreographer',
 			'Assistant Choreographer', 'Associate Choreographer', 'Dance Captain', 'Assistant Dance Captain',
-			'Actor', 'Musician', 'Author', 'Book', 'Composer', 'Lyricist', 'Translator'];
+			'Actor', 'Musician', 'Author', 'Book', 'Composer', 'Lyricist', 'Translator', 'Orchestrations', 'Arrangements'];
 		for (let i = 0; i < productionDetails.length; i++) {
 			if ($.inArray(productionDetails[i].Position, restArray) < 0) {
 				let $restName = $(
