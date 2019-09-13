@@ -432,6 +432,26 @@ $(document).ready(function(){
 			};
 		};
 
+		// Set the Adaptation information
+		for (let i = 0; i < productionDetails.length; i++) {
+			if (productionDetails[i].Position == 'Adaptation') {
+				let $adaptationName = $(
+					[
+						"<div class='row align-items-center'>",
+							"<div class='col-md-12'><span class='float-left'>",
+								productionDetails[i].Position,
+								": </span><span class='float-right'>",
+								"<span class='personLookup likeLink' data-id='",
+								productionDetails[i].Person_ID,
+								"'><span class='boldItalic'>",productionDetails[i].Name,"</span></span></span>",
+							"</div>",
+						"</div>"
+					].join("")
+				);
+				rowsToAdd.push($adaptationName);
+			};
+		};
+
 		// Set the Theatre row and push to rowsToAdd
 		let $theatreRow = $(
 			[
@@ -764,7 +784,7 @@ $(document).ready(function(){
 		let restArray = ['Executive Producer', 'Producer', 'Director', 'Assistant Director', 'Associate Director',
 			'Music Director', 'Assistant Music Director', 'Associate Music Director', 'Choreographer',
 			'Assistant Choreographer', 'Associate Choreographer', 'Dance Captain', 'Assistant Dance Captain',
-			'Actor', 'Musician', 'Author', 'Book', 'Composer', 'Lyricist', 'Translator', 'Orchestrations', 'Arrangements'];
+			'Actor', 'Musician', 'Author', 'Book', 'Composer', 'Lyricist', 'Translator', 'Orchestrations', 'Arrangements', 'Adaptation'];
 		for (let i = 0; i < productionDetails.length; i++) {
 			if ($.inArray(productionDetails[i].Position, restArray) < 0) {
 				let $restName = $(
