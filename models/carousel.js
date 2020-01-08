@@ -1,7 +1,7 @@
 module.exports = function(sequelize, DataTypes) {
 	const Carousel = sequelize.define("Carousel", {
 		'Production_Title': {
-			type: DataTypes.STRING,
+			type: DataTypes.TEXT,
 			allowNull: false,
 			validate: {notEmpty: true}
 		},
@@ -16,19 +16,19 @@ module.exports = function(sequelize, DataTypes) {
 			validate: {notEmpty: true}
 		},
 		'Info': {
-			type: DataTypes.STRING,
+			type: DataTypes.TEXT,
 			allowNull: true,
 			defaultValue: null,
 			validate: {notEmpty: true}
 		},
 		'URL': {
-			type: DataTypes.STRING,
+			type: DataTypes.TEXT,
 			allowNull: true,
 			defaultValue: null,
 			validate: {notEmpty: true}
 		},
 		'Image': {
-			type: DataTypes.STRING,
+			type: DataTypes.TEXT,
 			allowNull: true,
 			defaultValue: null,
 			validate: {notEmpty: true}
