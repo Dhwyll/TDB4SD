@@ -27,9 +27,6 @@ module.exports = function(app) {
 		db.sequelize.query(sqlQuery)
 			.then(function(data, metadata) {
 				res.json(data);
-			})
-			.catch((err) => {
-				console.log(err);
 			});
 	});
 
@@ -56,9 +53,6 @@ module.exports = function(app) {
 		db.sequelize.query(sqlQuery)
 			.then(function(data, metadata) {
 				res.json(data);
-			})
-			.catch((err) => {
-				console.log(err);
 			});
 	});
 
@@ -80,9 +74,6 @@ module.exports = function(app) {
 		db.sequelize.query(sqlQuery)
 			.then(function(data, metadata) {
 				res.json(data);
-			})
-			.catch((err) => {
-				console.log(err);
 			});
 	});
 
@@ -114,9 +105,6 @@ module.exports = function(app) {
 		db.sequelize.query(sqlQuery)
 			.then(function(data, metadata) {
 				res.json(data);
-			})
-			.catch((err) => {
-				console.log(err);
 			});
 	});
 
@@ -134,9 +122,6 @@ module.exports = function(app) {
 		db.sequelize.query(sqlQuery)
 			.then(function(data, metadata) {
 				res.json(data);
-			})
-			.catch((err) => {
-				console.log(err);
 			});
 	});
 
@@ -154,9 +139,6 @@ module.exports = function(app) {
 		db.sequelize.query(sqlQuery)
 			.then(function(data, metadata) {
 				res.json(data);
-			})
-			.catch((err) => {
-				console.log(err);
 			});
 	});
 
@@ -186,9 +168,6 @@ module.exports = function(app) {
 			.then(function(data, metadata) {
 				res.json(data);
 			});
-		})
-		.catch((err) => {
-			console.log(err);
 	});
 
 	// GET route for getting all of the Theatres
@@ -206,9 +185,6 @@ module.exports = function(app) {
 			.then(function(data, metadata) {
 				res.json(data);
 			});
-		})
-		.catch((err) => {
-			console.log(err);
 	});
 
 	// GET route for getting the entry for the specific Theatre given the ID
@@ -226,9 +202,6 @@ module.exports = function(app) {
 			.then(function(data, metadata) {
 				res.json(data);
 			});
-		})
-		.catch((err) => {
-			console.log(err);
 	});
 
 	// GET route for getting all of the Theatre Details
@@ -248,9 +221,6 @@ module.exports = function(app) {
 			.then(function(data, metadata) {
 				res.json(data);
 			});
-		})
-		.catch((err) => {
-			console.log(err);
 	});
 
 	// GET route for getting all of the Productions for a specific Year
@@ -272,9 +242,6 @@ module.exports = function(app) {
 			.then(function(data, metadata) {
 				res.json(data);
 			});
-		})
-		.catch((err) => {
-			console.log(err);
 	});
 
 	// GET route for getting all Awards for a particular Production
@@ -312,10 +279,7 @@ module.exports = function(app) {
 		db.sequelize.query(sqlQuery)
 			.then(function(data, netadata) {
 				res.json(data);
-			});
-		})
-		.catch((err) => {
-			console.log(err);
+			});	
 	});
 
 	// GET route for getting all Awrads for a particular Person
@@ -353,10 +317,7 @@ module.exports = function(app) {
 		db.sequelize.query(sqlQuery)
 			.then(function(data, netadata) {
 				res.json(data);
-			})
-			.catch((err) => {
-				console.log(err);
-			});
+			});	
 
 	});
 };
