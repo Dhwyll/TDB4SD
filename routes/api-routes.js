@@ -25,7 +25,7 @@ module.exports = function(app) {
 			"WHERE (Open_Date <= (NOW() + INTERVAL 28 DAY) AND (Close_Date >= NOW())) " +
 			"ORDER BY Carousels.Close_Date, Carousels.Production_Title";
 		db.sequelize.query(sqlQuery)
-			.spread(function(data, metadata) {
+			.then(function(data, metadata) {
 				res.json(data);
 			});
 	});
@@ -51,7 +51,7 @@ module.exports = function(app) {
 		sqlQuery += "%') AND (Production_Names.Theatre_ID = Theatre_Names.ID) " +
 			"ORDER BY Production_Names.Open_Date DESC";
 		db.sequelize.query(sqlQuery)
-			.spread(function(data, metadata) {
+			.then(function(data, metadata) {
 				res.json(data);
 			});
 	});
@@ -72,7 +72,7 @@ module.exports = function(app) {
 			sqlQuery += ") AND (Production_Names.Theatre_ID = Theatre_Names.ID) " +
 			"ORDER BY Production_Names.Open_Date";
 		db.sequelize.query(sqlQuery)
-			.spread(function(data, metadata) {
+			.then(function(data, metadata) {
 				res.json(data);
 			});
 	});
@@ -103,7 +103,7 @@ module.exports = function(app) {
 			"AND (Productions.Position_ID = Position_Names.ID) " +
 			"ORDER BY People_Names.Last_Name, People_Names.Name, Position_Names.Position, Productions.Role";
 		db.sequelize.query(sqlQuery)
-			.spread(function(data, metadata) {
+			.then(function(data, metadata) {
 				res.json(data);
 			});
 	});
@@ -120,7 +120,7 @@ module.exports = function(app) {
 		sqlQuery += searchTerm;
 		sqlQuery += "%' ORDER BY People_Names.Last_Name, People_Names.Name";
 		db.sequelize.query(sqlQuery)
-			.spread(function(data, metadata) {
+			.then(function(data, metadata) {
 				res.json(data);
 			});
 	});
@@ -137,7 +137,7 @@ module.exports = function(app) {
 		sqlQuery += searchTerm;
 		sqlQuery += " ORDER BY People_Names.Last_Name, People_Names.Name";
 		db.sequelize.query(sqlQuery)
-			.spread(function(data, metadata) {
+			.then(function(data, metadata) {
 				res.json(data);
 			});
 	});
@@ -165,7 +165,7 @@ module.exports = function(app) {
 			"AND (Productions.Position_ID = Position_Names.ID) " +
 			"ORDER BY Productions.Open_Date DESC, Position";
 		db.sequelize.query(sqlQuery)
-			.spread(function(data, metadata) {
+			.then(function(data, metadata) {
 				res.json(data);
 			});
 	});
@@ -182,7 +182,7 @@ module.exports = function(app) {
 		sqlQuery += searchTerm;	
 		sqlQuery += "%' ORDER BY Theatre_Names.Theatre";
 		db.sequelize.query(sqlQuery)
-			.spread(function(data, metadata) {
+			.then(function(data, metadata) {
 				res.json(data);
 			});
 	});
@@ -199,7 +199,7 @@ module.exports = function(app) {
 		sqlQuery += searchTerm;	
 		sqlQuery += " ORDER BY Theatre_Names.Theatre";
 		db.sequelize.query(sqlQuery)
-			.spread(function(data, metadata) {
+			.then(function(data, metadata) {
 				res.json(data);
 			});
 	});
@@ -218,7 +218,7 @@ module.exports = function(app) {
 		sqlQuery += searchTerm;
 		sqlQuery += ") ORDER BY Production_Names.Open_Date DESC";
 		db.sequelize.query(sqlQuery)
-			.spread(function(data, metadata) {
+			.then(function(data, metadata) {
 				res.json(data);
 			});
 	});
@@ -239,7 +239,7 @@ module.exports = function(app) {
 		sqlQuery += "%') AND (Production_Names.Theatre_ID = Theatre_Names.ID) " +
 			"ORDER BY Production_Names.Open_Date";
 		db.sequelize.query(sqlQuery)
-			.spread(function(data, metadata) {
+			.then(function(data, metadata) {
 				res.json(data);
 			});
 	});
@@ -277,7 +277,7 @@ module.exports = function(app) {
 			"AND (Awards.Person_ID = People_Names.ID OR Awards.Person_ID IS NULL) " +
 			"ORDER BY Award_ID, Category_ID, Won, People_Names.Last_Name, Name";
 		db.sequelize.query(sqlQuery)
-			.spread(function(data, netadata) {
+			.then(function(data, netadata) {
 				res.json(data);
 			});	
 	});
@@ -315,7 +315,7 @@ module.exports = function(app) {
 			"AND (Awards.person_ID = People_Names.ID) " +
 			"ORDER BY Award, Award_Date DESC, Won DESC, Category";
 		db.sequelize.query(sqlQuery)
-			.spread(function(data, netadata) {
+			.then(function(data, netadata) {
 				res.json(data);
 			});	
 
