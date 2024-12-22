@@ -24,7 +24,7 @@ module.exports = function(app) {
 			"Carousels.URL, " +
 			"Carousels.Image " +
 			"FROM Carousels " +
-			"WHERE (Open_Date <= (NOW() + INTERVAL 28 DAY) AND (Close_Date >= NOW() + 1)) " +
+			"WHERE (Open_Date <= (NOW() + INTERVAL 28 DAY) AND (Close_Date >= NOW())) " +
 			"ORDER BY Carousels.Close_Date, Carousels.Production_Title";
 		db.sequelize.query(sqlQuery, { type: QueryTypes.SELECT})
 			.then(function(data, metadata) {
