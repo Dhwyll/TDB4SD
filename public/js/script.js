@@ -633,9 +633,9 @@ $(document).ready(function(){
 			};
 		};
 
-		// Set the Musical Director information
+		// Set the Music Director information
 		for (let i = 0; i < productionDetails.length; i++) {
-			if (productionDetails[i].Position == 'Musical Director') {
+			if (productionDetails[i].Position == 'Music Director') {
 				let $musicDirectorName = $(
 					[
 						"<div class='row align-items-center'>",
@@ -653,9 +653,9 @@ $(document).ready(function(){
 			};
 		};
 
-		// Set the Assistant Musical Director information
+		// Set the Assistant Music Director information
 		for (let i = 0; i < productionDetails.length; i++) {
-			if (productionDetails[i].Position == 'Assistant Musical Director') {
+			if (productionDetails[i].Position == 'Assistant Music Director') {
 				let $musicDirectorName = $(
 					[
 						"<div class='row align-items-center'>",
@@ -673,9 +673,9 @@ $(document).ready(function(){
 			};
 		};
 
-		// Set the Associate Musical Director information
+		// Set the Associate Music Director information
 		for (let i = 0; i < productionDetails.length; i++) {
-			if (productionDetails[i].Position == 'Associate Musical Director') {
+			if (productionDetails[i].Position == 'Associate Music Director') {
 				let $musicDirectorName = $(
 					[
 						"<div class='row align-items-center'>",
