@@ -5,7 +5,8 @@
 // *** Dependencies
 // =============================================================
 var express = require("express");
-var bodyParser = require("body-parser");
+// removing to adapt to new Express version 5
+// var bodyParser = require("body-parser");
 
 // Sets up the Express App
 // =============================================================
@@ -15,10 +16,10 @@ let PORT = process.env.PORT || 8080;
 var db = require("./models");
 
 // Sets up the Express app to handle data parsing
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.text());
-app.use(bodyParser.json({ type: "application/vnd.api+json" }));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.text());
+app.use(express.json({ type: "application/vnd.api+json" }));
 
 app.use(express.static("public"));
 
@@ -34,5 +35,10 @@ require("./routes/api-routes.js")(app);
 // =============================================================
 db.sequelize.sync().then(function() {
   app.listen(PORT, function() {
+    console.log("App listening on PORT " + PORT);
   });
+}).catch(function(err) {
+  console.error("CRITICAL ERROR: Sequelize sync failed!");
+  console.error(err);
+  process.exit(1); // This ensures Heroku logs the error and stops the crash loop
 });
