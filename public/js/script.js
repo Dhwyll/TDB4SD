@@ -400,18 +400,12 @@ $(document).ready(function(){
 	// When the Production Details button is clicked, grab the Production ID and call the getProductionDetails function
 	$(document).on("click", "button.productionDetails", getProductionDetails);
 
-	// This function grabs the Production Details from the database and updates the Production Details container
+	// This function updates the UI state so the shared production-detail renderer can load the view once.
 	function getProductionDetails(event) {
 		event.stopPropagation();
 		let showID = $(this).val();
 		let resultTitle = $(this).closest('.row').find('.results-item').first().text().trim();
-		let whichProduction = {
-			productionID: showID
-		};
 		applyState({ view: 'production', type: 'Production', id: showID, name: resultTitle }, { push: true });
-		$.get("/api/ProductionDetails", whichProduction, function(data) {
-			initializeProductionDetailRows(data, showID);
-		})
 	}
 
 	// Reset the Search to look for Title under Productions, run the search, and get the Details for that Production
@@ -1284,18 +1278,12 @@ $(document).ready(function(){
 	// When the Person Details button is clicked, grab the Person ID and call the getPersonDetails function
 	$(document).on("click", "button.personDetails", getPersonDetails);
 
-	// This function grabs the Person Details from the database and updates the Person Details container
+	// This function updates the UI state so the shared person-detail renderer can load the view once.
 	function getPersonDetails(event) {
 		event.stopPropagation();
 		let personID = $(this).val();
 		let personName = $(this).closest('.row').find('.results-item').first().text().trim();
-		let whichPerson = {
-			personID: personID
-		};
 		applyState({ view: 'person', type: 'Person', id: personID, name: personName }, { push: true });
-		$.get("/api/PersonDetails", whichPerson, function(data) {
-			initializePersonDetailRows(data, personID);
-		});
 	}
 
 	// This function resets the Person Results displayed with new results from the database
@@ -1557,18 +1545,12 @@ $(document).ready(function(){
 	// When the Theatre Details button is clicked, grab the Person ID and call the getTheatreDetails function
 	$(document).on("click", "button.theatreDetails", getTheatreDetails);
 
-	// This function grabs the Theatre Details from the database and updates the  Details container
+	// This function updates the UI state so the shared theatre-detail renderer can load the view once.
 	function getTheatreDetails(event) {
 		event.stopPropagation();
 		let theatreID = $(this).val();
 		let theatreName = $(this).closest('.row').find('.results-item').first().text().trim();
-		let whichTheatre= {
-			theatreID: theatreID
-		};
 		applyState({ view: 'theatre', type: 'Theatre', id: theatreID, name: theatreName }, { push: true });
-		$.get("/api/TheatreDetails", whichTheatre, function(data) {
-			initializeTheatreDetailRows(data);
-		})
 	}
 
 	// This function resets the Theatre Deatils Results displayed with new results from the database
