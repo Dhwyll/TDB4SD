@@ -161,6 +161,7 @@ $(document).ready(function(){
 			$('#searchInput').val('');
 			$('#searchType').text('Filter');
 			hideContainers();
+			loadCarousel();
 		}
 
 		if (push) {
@@ -308,28 +309,29 @@ $(document).ready(function(){
 
 
 
-	// Grab the Carousel information
-	$.get("/api/Carousel", function(data) {
-		console.log("In Carousel");
-		console.log(data);
-		if (data.length == 0) {
-			$("#carouselContainer").hide();
-		} else {
-			for (let i = 0; i < data.length; i++) {
-				if (i == 0) {
-					$("#carouselContainer").show();
-					$carouselEntries.empty();
-					let rowsToAdd = [];
-					rowsToAdd.push(createFirstCarouselEntry(data[i]));
-					$carouselEntries.append(rowsToAdd);
-				} else {
-					let rowsToAdd = [];
-					rowsToAdd.push(createRestCarouselEntries(data[i]));
-					$carouselEntries.append(rowsToAdd);
+	function loadCarousel() {
+		$.get("/api/Carousel", function(data) {
+			console.log("In Carousel");
+			console.log(data);
+			if (data.length == 0) {
+				$("#carouselContainer").hide();
+			} else {
+				for (let i = 0; i < data.length; i++) {
+					if (i == 0) {
+						$("#carouselContainer").show();
+						$carouselEntries.empty();
+						let rowsToAdd = [];
+						rowsToAdd.push(createFirstCarouselEntry(data[i]));
+						$carouselEntries.append(rowsToAdd);
+					} else {
+						let rowsToAdd = [];
+						rowsToAdd.push(createRestCarouselEntries(data[i]));
+						$carouselEntries.append(rowsToAdd);
+					}
 				}
 			}
-		}
-	});
+		});
+	}
 
 
 
