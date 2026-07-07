@@ -27,9 +27,155 @@ $(document).ready(function(){
 	// Make sure the various containers are hidden at the start.
 	hideContainers();
 
+	function normalizeSearchType(searchType) {
+		if (!searchType || searchType === 'Filter') {
+			return 'All';
+		}
+		return searchType;
+	}
 
+	function getStateFromUrl() {
+		const params = new URLSearchParams(window.location.search);
+		const view = params.get('view');
 
+		if (!view) {
+			return { view: 'home' };
+		}
 
+		if (view === 'search') {
+			return {
+				view,
+				type: params.get('t') || params.get('type') || 'All',
+				query: params.get('q') || '',
+				id: '',
+				name: ''
+			};
+		}
+
+		if (['production', 'person', 'theatre'].includes(view)) {
+			return {
+				view,
+				type: view === 'production' ? 'Production' : view === 'person' ? 'Person' : 'Theatre',
+				query: '',
+				id: params.get('id') || '',
+				name: params.get('name') || ''
+			};
+		}
+
+		return {
+			view,
+			type: params.get('t') || params.get('type') || 'All',
+			query: params.get('q') || '',
+			id: params.get('id') || '',
+			name: params.get('name') || ''
+		};
+	}
+
+	function stateToUrl(state) {
+		const params = new URLSearchParams();
+		const normalizedState = {
+			view: state.view || 'home',
+			type: normalizeSearchType(state.type || 'All'),
+			query: state.query || '',
+			id: state.id || '',
+			name: state.name || ''
+		};
+
+		if (normalizedState.view === 'search') {
+			params.set('view', 'search');
+			if (normalizedState.query) {
+				params.set('q', normalizedState.query);
+			}
+			if (normalizedState.type && normalizedState.type !== 'All') {
+				params.set('t', normalizedState.type);
+			}
+		} else if (['production', 'person', 'theatre'].includes(normalizedState.view)) {
+			params.set('view', normalizedState.view);
+			if (normalizedState.id) {
+				params.set('id', normalizedState.id);
+			}
+		} else if (normalizedState.view && normalizedState.view !== 'home') {
+			params.set('view', normalizedState.view);
+		}
+
+		const queryString = params.toString();
+		return queryString ? `${window.location.pathname}?${queryString}` : window.location.pathname;
+	}
+
+	function applyState(state, options) {
+		const { push = true } = options || {};
+		const normalizedState = {
+			view: state.view || 'home',
+			type: normalizeSearchType(state.type || 'All'),
+			query: state.query || '',
+			id: state.id || '',
+			name: state.name || ''
+		};
+
+		if (normalizedState.view === 'search') {
+			$('#searchInput').val(normalizedState.query);
+			$('#searchType').text(normalizedState.type);
+			hideContainers();
+			if (normalizedState.query) {
+				switch (normalizedState.type) {
+					case 'Production':
+						getProductionResults(normalizedState.query);
+						break;
+					case 'Person':
+						getPersonResults(normalizedState.query);
+						break;
+					case 'Theatre':
+						getTheatreResults(normalizedState.query);
+						break;
+					case 'Year':
+						getYearResults(normalizedState.query);
+						break;
+					default:
+						getProductionResults(normalizedState.query);
+						getPersonResults(normalizedState.query);
+						getTheatreResults(normalizedState.query);
+				}
+			}
+		} else if (normalizedState.view === 'production') {
+			$('#searchInput').val(normalizedState.name || '');
+			$('#searchType').text(normalizedState.type || 'Production');
+			hideContainers();
+			if (normalizedState.id) {
+				getProductionIDResults(normalizedState.id, normalizedState.name || '');
+			}
+		} else if (normalizedState.view === 'person') {
+			$('#searchInput').val(normalizedState.name || '');
+			$('#searchType').text(normalizedState.type || 'Person');
+			hideContainers();
+			if (normalizedState.id) {
+				getPersonIDResults(normalizedState.id, normalizedState.name || '');
+			}
+		} else if (normalizedState.view === 'theatre') {
+			$('#searchInput').val(normalizedState.name || '');
+			$('#searchType').text(normalizedState.type || 'Theatre');
+			hideContainers();
+			if (normalizedState.id) {
+				getTheatreIDResults(normalizedState.id, normalizedState.name || '');
+			}
+		} else {
+			$('#searchInput').val('');
+			$('#searchType').text('Filter');
+			hideContainers();
+		}
+
+		if (push) {
+			history.pushState(normalizedState, '', stateToUrl(normalizedState));
+		}
+	}
+
+	function restoreStateFromUrl() {
+		applyState(getStateFromUrl(), { push: false });
+	}
+
+	function handlePopState(event) {
+		const currentState = event.state || getStateFromUrl();
+		applyState(currentState, { push: false });
+	}
 
 	// Convert a date from SQL into a date object for JavaScript
 	function sqlToJavaScriptDate(newDate) {
@@ -256,9 +402,11 @@ $(document).ready(function(){
 	function getProductionDetails(event) {
 		event.stopPropagation();
 		let showID = $(this).val();
+		let resultTitle = $(this).closest('.row').find('.results-item').first().text().trim();
 		let whichProduction = {
 			productionID: showID
 		};
+		applyState({ view: 'production', type: 'Production', id: showID, name: resultTitle }, { push: true });
 		$.get("/api/ProductionDetails", whichProduction, function(data) {
 			initializeProductionDetailRows(data, showID);
 		})
@@ -1138,9 +1286,11 @@ $(document).ready(function(){
 	function getPersonDetails(event) {
 		event.stopPropagation();
 		let personID = $(this).val();
+		let personName = $(this).closest('.row').find('.results-item').first().text().trim();
 		let whichPerson = {
 			personID: personID
 		};
+		applyState({ view: 'person', type: 'Person', id: personID, name: personName }, { push: true });
 		$.get("/api/PersonDetails", whichPerson, function(data) {
 			initializePersonDetailRows(data, personID);
 		});
@@ -1408,9 +1558,12 @@ $(document).ready(function(){
 	// This function grabs the Theatre Details from the database and updates the  Details container
 	function getTheatreDetails(event) {
 		event.stopPropagation();
+		let theatreID = $(this).val();
+		let theatreName = $(this).closest('.row').find('.results-item').first().text().trim();
 		let whichTheatre= {
-			theatreID: $(this).val()
+			theatreID: theatreID
 		};
+		applyState({ view: 'theatre', type: 'Theatre', id: theatreID, name: theatreName }, { push: true });
 		$.get("/api/TheatreDetails", whichTheatre, function(data) {
 			initializeTheatreDetailRows(data);
 		})
@@ -1489,69 +1642,47 @@ $(document).ready(function(){
 
 	// When a Search Type is chosen, update the dropdown button
 	$(function() {
-		$(".dropdown-menu a").click(function(){
-			$("#searchType").text($(this).text());
+		$(".dropdown-menu a").on("click", function(event) {
+			event.preventDefault();
+			event.stopPropagation();
+			$("#searchType").text($(this).text().trim());
+			$(this).closest('.dropdown').find('.dropdown-toggle').dropdown('toggle');
 		});
 	});
 
 	// When clicking on an individual Production in the Details, look up that Production and get their Details
 	$(document).on("click", "span.productionLookup", function() {
-		$("#productionResultsContainer").hide();
-		$("#personResultsContainer").hide();
-		$("#theatreResultsContainer").hide();
-		$("#detailsContainer").hide();
-		getProductionIDResults($(this).attr("data-id"), $(this).text());
+		applyState({ view: 'production', type: 'Production', id: $(this).attr('data-id'), name: $(this).text().trim() }, { push: true });
 	});
 
 	// When clicking on an individual Person in the Details, look up at that Person and get their Details
 	$(document).on("click", "span.personLookup", function() {
-		$("#productionResultsContainer").hide();
-		$("#personResultsContainer").hide();
-		$("#theatreResultsContainer").hide();
-		$("#detailsContainer").hide();
-		getPersonIDResults($(this).attr("data-id"), $(this).text());
+		applyState({ view: 'person', type: 'Person', id: $(this).attr('data-id'), name: $(this).text().trim() }, { push: true });
 	});
 
 	// When clicking on an individual Theatre in the Details, look up that Theatre and get its Details
 	$(document).on("click", "span.theatreLookup", function() {
-		$("#productionResultsContainer").hide();
-		$("#personResultsContainer").hide();
-		$("#theatreResultsContainer").hide();
-		$("#detailsContainer").hide();
-		getTheatreIDResults($(this).attr("data-id"), $(this).text());
+		applyState({ view: 'theatre', type: 'Theatre', id: $(this).attr('data-id'), name: $(this).text().trim() }, { push: true });
 	});
 
 	// This functions calls the various searches
-	$("#searchButton").on("click", function(event) {
+	$("form.form-inline").on("submit", function(event) {
 		event.preventDefault();
-		hideContainers();
 		let newSearch = $("#searchInput").val().trim();
-		let newSearchType = $("#searchType").text().trim();
+		let newSearchType = normalizeSearchType($("#searchType").text().trim());
 		if (newSearch.length > 0) {
-			switch(newSearchType) {
-				case 'All':
-					getProductionResults(newSearch);
-					getPersonResults(newSearch);
-					getTheatreResults(newSearch);
-					break;
-				case 'Production':
-					getProductionResults(newSearch);
-					break;
-				case 'Person':
-					getPersonResults(newSearch);
-					break;
-				case 'Theatre':
-					getTheatreResults(newSearch);
-					break;
-				case 'Year':
-					getYearResults(newSearch);
-					break;
-				default:
-					getProductionResults(newSearch);
-					getPersonResults(newSearch);
-					getTheatreResults(newSearch);
-			}	
+			applyState({ view: 'search', type: newSearchType, query: newSearch }, { push: true });
+		} else {
+			applyState({ view: 'home' }, { push: true });
 		}
 	});
+
+	$("#searchButton").on("click", function(event) {
+		event.preventDefault();
+		$("form.form-inline").trigger("submit");
+	});
+
+	window.addEventListener('popstate', handlePopState);
+	restoreStateFromUrl();
 
 });
