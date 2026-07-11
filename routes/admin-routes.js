@@ -13,13 +13,25 @@ module.exports = function(app, db, requireAdmin) {
 
   // GET /admin/login - serve login page
   app.get("/admin/login", function(req, res) {
-    res.sendFile(__dirname + "/../public/admin-login.html");
+    const filePath = __dirname + "/../public/admin-login.html";
+    res.sendFile(filePath, (err) => {
+      if (err) {
+        console.error("Error serving admin-login.html:", err);
+        res.status(500).json({ error: "Failed to load login page", details: err.message });
+      }
+    });
   });
 
   // GET /admin/production - serve production entry page (protected)
   app.get("/admin/production", function(req, res) {
     if (req.session && req.session.isAuthenticated) {
-      res.sendFile(__dirname + "/../public/admin-production.html");
+      const filePath = __dirname + "/../public/admin-production.html";
+      res.sendFile(filePath, (err) => {
+        if (err) {
+          console.error("Error serving admin-production.html:", err);
+          res.status(500).json({ error: "Failed to load production page", details: err.message });
+        }
+      });
     } else {
       res.redirect("/admin/login");
     }
@@ -28,7 +40,13 @@ module.exports = function(app, db, requireAdmin) {
   // GET /admin/account - serve account management page (protected)
   app.get("/admin/account", function(req, res) {
     if (req.session && req.session.isAuthenticated) {
-      res.sendFile(__dirname + "/../public/admin-account.html");
+      const filePath = __dirname + "/../public/admin-account.html";
+      res.sendFile(filePath, (err) => {
+        if (err) {
+          console.error("Error serving admin-account.html:", err);
+          res.status(500).json({ error: "Failed to load account page", details: err.message });
+        }
+      });
     } else {
       res.redirect("/admin/login");
     }

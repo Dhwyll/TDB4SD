@@ -55,6 +55,7 @@ app.use(express.static("public"));
 // =============================================================
 require("./routes/api-routes.js")(app);
 require("./routes/admin-routes.js")(app, db, requireAdmin);
+console.log("Admin routes loaded successfully");
 
 // app.get('*', (request, response) => {
 // 	response.sendFile(path.join(__dirname, 'public', 'index.html'));
