@@ -3,6 +3,7 @@
 // *********************************************************************************
 
 const bcrypt = require("bcrypt");
+const path = require("path");
 
 module.exports = function(app, db, requireAdmin) {
 
@@ -13,11 +14,11 @@ module.exports = function(app, db, requireAdmin) {
 
   // GET /admin/login - serve login page
   app.get("/admin/login", function(req, res) {
-    const filePath = __dirname + "/../public/admin-login.html";
+    const filePath = path.join(__dirname, "..", "public", "admin-login.html");
     res.sendFile(filePath, (err) => {
       if (err) {
         console.error("Error serving admin-login.html:", err);
-        res.status(500).json({ error: "Failed to load login page", details: err.message });
+        res.status(500).json({ error: "Failed to load login page", details: err.message, path: filePath });
       }
     });
   });
@@ -25,11 +26,11 @@ module.exports = function(app, db, requireAdmin) {
   // GET /admin/production - serve production entry page (protected)
   app.get("/admin/production", function(req, res) {
     if (req.session && req.session.isAuthenticated) {
-      const filePath = __dirname + "/../public/admin-production.html";
+      const filePath = path.join(__dirname, "..", "public", "admin-production.html");
       res.sendFile(filePath, (err) => {
         if (err) {
           console.error("Error serving admin-production.html:", err);
-          res.status(500).json({ error: "Failed to load production page", details: err.message });
+          res.status(500).json({ error: "Failed to load production page", details: err.message, path: filePath });
         }
       });
     } else {
@@ -40,11 +41,11 @@ module.exports = function(app, db, requireAdmin) {
   // GET /admin/account - serve account management page (protected)
   app.get("/admin/account", function(req, res) {
     if (req.session && req.session.isAuthenticated) {
-      const filePath = __dirname + "/../public/admin-account.html";
+      const filePath = path.join(__dirname, "..", "public", "admin-account.html");
       res.sendFile(filePath, (err) => {
         if (err) {
           console.error("Error serving admin-account.html:", err);
-          res.status(500).json({ error: "Failed to load account page", details: err.message });
+          res.status(500).json({ error: "Failed to load account page", details: err.message, path: filePath });
         }
       });
     } else {
