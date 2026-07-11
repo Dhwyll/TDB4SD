@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TDB4SD Admin - Add Production</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2rem; line-height: 1.5; }
+    form { max-width: 600px; display: grid; gap: 0.75rem; }
+    label { font-weight: bold; }
+    input, button, textarea { padding: 0.5rem; font-size: 1rem; }
+    .hidden { display: none; }
+    .message { margin-top: 1rem; }
+    .error { color: tomato; }
+    .success { color: green; }
+    nav { margin-bottom: 1rem; }
+    nav a { margin-right: 1rem; }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="/admin/production">Add Production</a>
+    <a href="/admin/account">Admin Account</a>
+    <a href="#" id="logoutButton">Log out</a>
+  </nav>
+
+  <h1>Add Production</h1>
+  <form id="productionForm">
+    <label for="theatreName">Theatre</label>
+    <input id="theatreName" name="theatreName" required />
+
+    <label for="title">Title</label>
+    <input id="title" name="title" required />
+
+    <label for="openDate">Open Date</label>
+    <input id="openDate" name="openDate" placeholder="YYYY-MM-DD" required />
+
+    <label for="closeDate">Close Date</label>
+    <input id="closeDate" name="closeDate" placeholder="YYYY-MM-DD" required />
+
+    <label for="numPerformances">Number of Performances</label>
+    <input id="numPerformances" name="numPerformances" type="number" min="0" />
+
+    <label for="fullName">Person Full Name</label>
+    <input id="fullName" name="fullName" required />
+
+    <label for="lastName">Person Last Name</label>
+    <input id="lastName" name="lastName" required />
+
+    <label for="positionName">Position</label>
+    <input id="positionName" name="positionName" required />
+
+    <label for="role">Role (optional)</label>
+    <input id="role" name="role" />
+
+    <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+      <button type="submit">Save Production</button>
+      <button id="clearFormButton" type="button">Clear Form</button>
+    </div>
+  </form>
+  <div id="formMessage" class="message"></div>
+
+  <script>
+    const productionForm = document.getElementById('productionForm');
+    const formMessage = document.getElementById('formMessage');
+
+    function getProductionHeaderValues() {
+      return {
+        theatreName: document.getElementById('theatreName').value,
+        title: document.getElementById('title').value,
+        openDate: document.getElementById('openDate').value,
+        closeDate: document.getElementById('closeDate').value,
+        numPerformances: document.getElementById('numPerformances').value
+      };
+    }
+
+    function restoreProductionHeaderValues(values) {
+      document.getElementById('theatreName').value = values.theatreName || '';
+      document.getElementById('title').value = values.title || '';
+      document.getElementById('openDate').value = values.openDate || '';
+      document.getElementById('closeDate').value = values.closeDate || '';
+      document.getElementById('numPerformances').value = values.numPerformances || '';
+    }
+
+    function clearPersonFields() {
+      document.getElementById('fullName').value = '';
+      document.getElementById('lastName').value = '';
+      document.getElementById('positionName').value = '';
+      document.getElementById('role').value = '';
+    }
+
+    async function checkAuth() {
+      const response = await fetch('/admin/status');
+      const data = await response.json();
+      if (!data.authenticated) {
+        window.location.href = '/admin/login';
+      }
+    }
+
+    productionForm.addEventListener('submit', async function(event) {
+      event.preventDefault();
+      const headerValues = getProductionHeaderValues();
+      const formData = new FormData(this);
+      const payload = Object.fromEntries(formData.entries());
+
+      const response = await fetch('/admin/production', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      const data = await response.json();
+
+      if (data.success) {
+        formMessage.textContent = 'Production entry saved.';
+        formMessage.className = 'message success';
+        restoreProductionHeaderValues(headerValues);
+        clearPersonFields();
+      } else {
+        formMessage.textContent = data.error || 'Save failed.';
+        formMessage.className = 'message error';
+      }
+    });
+
+    document.getElementById('clearFormButton').addEventListener('click', function() {
+      productionForm.reset();
+      formMessage.textContent = '';
+      formMessage.className = 'message';
+    });
+
+    document.getElementById('logoutButton').addEventListener('click', async function() {
+      await fetch('/admin/logout', { method: 'POST' });
+      window.location.href = '/admin/login';
+    });
+
+    checkAuth();
+  </script>
+</body>
+</html>

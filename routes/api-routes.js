@@ -40,7 +40,6 @@ module.exports = function(app) {
 	// GET route for getting all of the Productions
 	app.get("/api/Production", ( req, res ) => {
 		// Retrieve all of the Productions from the database and res.json them back to the user
-		console.log("In get Production");
 		let sqlQuery = "SELECT Production_Names.ID AS 'Production_ID', " +
 			"Production_Names.production AS 'Title', " +
 			"Theatre_Names.theatre AS 'Theatre', " +
@@ -55,8 +54,6 @@ module.exports = function(app) {
 			"ORDER BY Production_Names.Open_Date DESC";
 		db.sequelize.query(sqlQuery, { type: QueryTypes.SELECT})
 			.then(function(data, metadata) {
-				console.log("Results of query");
-				console.log(data);
 				res.json(data);
 			});
 	});

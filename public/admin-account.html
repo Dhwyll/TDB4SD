@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TDB4SD Admin - Account</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2rem; line-height: 1.5; }
+    form { max-width: 600px; display: grid; gap: 0.75rem; }
+    label { font-weight: bold; }
+    input, button { padding: 0.5rem; font-size: 1rem; }
+    .message { margin-top: 1rem; }
+    .error { color: tomato; }
+    .success { color: green; }
+    nav { margin-bottom: 1rem; }
+    nav a { margin-right: 1rem; }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="/admin/production">Add Production</a>
+    <a href="/admin/account">Admin Account</a>
+    <a href="#" id="logoutButton">Log out</a>
+  </nav>
+
+  <h1>Admin Account</h1>
+  <form id="passwordForm">
+    <label for="accountUsername">Username</label>
+    <input id="accountUsername" name="username" required />
+
+    <label for="currentPassword">Current Password</label>
+    <input id="currentPassword" name="currentPassword" type="password" required />
+
+    <label for="newPassword">New Password</label>
+    <input id="newPassword" name="newPassword" type="password" required />
+
+    <label for="confirmPassword">Confirm New Password</label>
+    <input id="confirmPassword" name="confirmPassword" type="password" required />
+
+    <button type="submit">Change Password</button>
+  </form>
+  <div id="passwordMessage" class="message"></div>
+
+  <script>
+    const passwordForm = document.getElementById('passwordForm');
+    const passwordMessage = document.getElementById('passwordMessage');
+    const newPasswordField = document.getElementById('newPassword');
+    const confirmPasswordField = document.getElementById('confirmPassword');
+
+    function validatePasswordMatch() {
+      const matches = newPasswordField.value === confirmPasswordField.value;
+      if (confirmPasswordField.value.length === 0) {
+        passwordMessage.textContent = '';
+        passwordMessage.className = 'message';
+        return true;
+      }
+      if (!matches) {
+        passwordMessage.textContent = 'Passwords do not match.';
+        passwordMessage.className = 'message error';
+        return false;
+      }
+      passwordMessage.textContent = '';
+      passwordMessage.className = 'message';
+      return true;
+    }
+
+    confirmPasswordField.addEventListener('blur', validatePasswordMatch);
+    newPasswordField.addEventListener('input', function() {
+      if (confirmPasswordField.value.length > 0) {
+        validatePasswordMatch();
+      }
+    });
+
+    async function checkAuth() {
+      const response = await fetch('/admin/status');
+      const data = await response.json();
+      if (!data.authenticated) {
+        window.location.href = '/admin/login';
+      }
+    }
+
+    passwordForm.addEventListener('submit', async function(event) {
+      event.preventDefault();
+      if (!validatePasswordMatch()) {
+        return;
+      }
+
+      const formData = new FormData(this);
+      const payload = Object.fromEntries(formData.entries());
+
+      const response = await fetch('/admin/password', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      const data = await response.json();
+
+      if (data.success) {
+        passwordMessage.textContent = 'Password changed successfully.';
+        passwordMessage.className = 'message success';
+        this.reset();
+      } else {
+        passwordMessage.textContent = data.error || 'Password change failed.';
+        passwordMessage.className = 'message error';
+      }
+    });
+
+    document.getElementById('logoutButton').addEventListener('click', async function() {
+      await fetch('/admin/logout', { method: 'POST' });
+      window.location.href = '/admin/login';
+    });
+
+    checkAuth();
+  </script>
+</body>
+</html>

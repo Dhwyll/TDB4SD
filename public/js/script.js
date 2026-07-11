@@ -180,8 +180,6 @@ $(document).ready(function(){
 
 	// Convert a date from SQL into a date object for JavaScript
 	function sqlToJavaScriptDate(newDate) {
-		console.log("in sqltoJavaScriptDate");
-		console.log(newDate);
 		const dateStr = newDate.split('-');
 		return(new Date(dateStr[0], dateStr[1] - 1, dateStr[2]));
 	}
@@ -214,12 +212,7 @@ $(document).ready(function(){
 
 	// This function constructs the first Carousel entry
 	function createFirstCarouselEntry(results) {
-		console.log("in createFirstCarouselEntry");
-		console.log(results);
 		if (results.Image == null) {
-			console.log("in if, meaning results.Image == null");
-			console.log("Open_Date " + results.Open_Date);
-			console.log("Close_Date " + results.Close_Date);
 			let openDate = sqlToJavaScriptDate(results.Open_Date);
 			let closeDate = sqlToJavaScriptDate(results.Close_Date);
 			let $newInputRow = $(
@@ -239,9 +232,6 @@ $(document).ready(function(){
 			);
 			return $newInputRow;
 		} else {
-			console.log("in else, meaning the results have an image");
-			console.log("Open_Date " + results.Open_Date);
-			console.log("Close_Date " + results.Close_Date);
 			let openDate = sqlToJavaScriptDate(results.Open_Date);
 			let closeDate = sqlToJavaScriptDate(results.Close_Date);
 			let $newInputRow = $(
@@ -311,8 +301,6 @@ $(document).ready(function(){
 
 	function loadCarousel() {
 		$.get("/api/Carousel", function(data) {
-			console.log("In Carousel");
-			console.log(data);
 			if (data.length == 0) {
 				$("#carouselContainer").hide();
 			} else {
@@ -344,7 +332,6 @@ $(document).ready(function(){
 		};
 		$.get("/api/Production", searchTerm, function(data) {
 			initializeProductionRows(data);
-			console.log(data);
 		});
 	}
 
@@ -374,8 +361,6 @@ $(document).ready(function(){
 
 	// This function constructs a results row
 	function createNewProductionRow(results) {
-		console.log("about to show production results");
-		console.log(results);
 		let openDate = sqlToJavaScriptDate(results.Open_Date);
 		var $newInputRow = $(
 			[
@@ -1608,7 +1593,6 @@ $(document).ready(function(){
 
 	function getCalendar(currDate) {
 		$("#calendarContainer").show();
-		console.log("The current date is " + currDate);
 	}
 
 

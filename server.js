@@ -5,6 +5,8 @@
 // *** Dependencies
 // =============================================================
 var express = require("express");
+var session = require("express-session");
+var bcrypt = require("bcrypt");
 // removing to adapt to new Express version 5
 // var bodyParser = require("body-parser");
 
@@ -21,11 +23,38 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.text());
 app.use(express.json({ type: "application/vnd.api+json" }));
 
+app.use(session({
+  secret: process.env.SESSION_SECRET || "tdb4sd-testing-secret",
+  resave: false,
+  saveUninitialized: false,
+  cookie: { httpOnly: true, sameSite: true }
+}));
+
+async function ensureDefaultAdminUser() {
+  const username = process.env.TDB4SD_ADMIN_USERNAME || "admin";
+  const password = process.env.TDB4SD_ADMIN_PASSWORD || "changeMe123!";
+
+  const existing = await db.Admin_User.findOne({ where: { username } });
+  if (!existing) {
+    const passwordHash = await bcrypt.hash(password, 10);
+    await db.Admin_User.create({ username, passwordHash });
+  }
+}
+
+function requireAdmin(req, res, next) {
+  if (req.session && req.session.isAuthenticated && req.session.username) {
+    return next();
+  }
+
+  res.status(401).json({ error: "Unauthorized" });
+}
+
 app.use(express.static("public"));
 
 // Routes
 // =============================================================
 require("./routes/api-routes.js")(app);
+require("./routes/admin-routes.js")(app, db, requireAdmin);
 
 // app.get('*', (request, response) => {
 // 	response.sendFile(path.join(__dirname, 'public', 'index.html'));
@@ -33,7 +62,8 @@ require("./routes/api-routes.js")(app);
 
 // Syncing our sequelize models and then starting our Express app
 // =============================================================
-db.sequelize.sync().then(function() {
+db.sequelize.sync().then(async function() {
+  await ensureDefaultAdminUser();
   app.listen(PORT, function() {
     console.log("App listening on PORT " + PORT);
   });

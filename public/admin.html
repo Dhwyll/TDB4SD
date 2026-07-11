@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TDB4SD Admin</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2rem; line-height: 1.5; }
+    form { max-width: 600px; display: grid; gap: 0.75rem; }
+    label { font-weight: bold; }
+    input, button, textarea { padding: 0.5rem; font-size: 1rem; }
+    .hidden { display: none; }
+    .message { margin-top: 1rem; }
+    .error { color: tomato; }
+    .success { color: green; }
+  </style>
+</head>
+<body>
+  <h1>TDB4SD Admin</h1>
+
+  <div id="loginPanel">
+    <h2>Login</h2>
+    <form id="loginForm">
+      <label for="username">Username</label>
+      <input id="username" name="username" required />
+
+      <label for="password">Password</label>
+      <input id="password" name="password" type="password" required />
+
+      <button type="submit">Log in</button>
+    </form>
+    <div id="loginMessage" class="message"></div>
+  </div>
+
+  <div id="adminPanel" class="hidden">
+    <h2>Add Production</h2>
+    <form id="productionForm">
+      <label for="theatreName">Theatre</label>
+      <input id="theatreName" name="theatreName" required />
+
+      <label for="title">Title</label>
+      <input id="title" name="title" required />
+
+      <label for="openDate">Open Date</label>
+      <input id="openDate" name="openDate" placeholder="YYYY-MM-DD" required />
+
+      <label for="closeDate">Close Date</label>
+      <input id="closeDate" name="closeDate" placeholder="YYYY-MM-DD" required />
+
+      <label for="numPerformances">Number of Performances</label>
+      <input id="numPerformances" name="numPerformances" type="number" min="0" />
+
+      <label for="fullName">Person Full Name</label>
+      <input id="fullName" name="fullName" required />
+
+      <label for="lastName">Person Last Name</label>
+      <input id="lastName" name="lastName" required />
+
+      <label for="positionName">Position</label>
+      <input id="positionName" name="positionName" required />
+
+      <label for="role">Role (optional)</label>
+      <input id="role" name="role" />
+
+      <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+        <button type="submit">Save Production</button>
+        <button id="clearFormButton" type="button">Clear Form</button>
+      </div>
+    </form>
+    <div id="formMessage" class="message"></div>
+
+    <h2>Admin Account</h2>
+    <form id="passwordForm">
+      <label for="accountUsername">Username</label>
+      <input id="accountUsername" name="username" required />
+
+      <label for="currentPassword">Current Password</label>
+      <input id="currentPassword" name="currentPassword" type="password" required />
+
+      <label for="newPassword">New Password</label>
+      <input id="newPassword" name="newPassword" type="password" required />
+
+      <button type="submit">Change Password</button>
+    </form>
+    <div id="passwordMessage" class="message"></div>
+
+    <button id="logoutButton" type="button">Log out</button>
+  </div>
+
+  <script>
+    const loginPanel = document.getElementById('loginPanel');
+    const adminPanel = document.getElementById('adminPanel');
+    const loginMessage = document.getElementById('loginMessage');
+    const formMessage = document.getElementById('formMessage');
+    const passwordMessage = document.getElementById('passwordMessage');
+    const productionForm = document.getElementById('productionForm');
+    const passwordForm = document.getElementById('passwordForm');
+
+    function getProductionHeaderValues() {
+      return {
+        theatreName: document.getElementById('theatreName').value,
+        title: document.getElementById('title').value,
+        openDate: document.getElementById('openDate').value,
+        closeDate: document.getElementById('closeDate').value,
+        numPerformances: document.getElementById('numPerformances').value
+      };
+    }
+
+    function restoreProductionHeaderValues(values) {
+      document.getElementById('theatreName').value = values.theatreName || '';
+      document.getElementById('title').value = values.title || '';
+      document.getElementById('openDate').value = values.openDate || '';
+      document.getElementById('closeDate').value = values.closeDate || '';
+      document.getElementById('numPerformances').value = values.numPerformances || '';
+    }
+
+    function clearPersonFields() {
+      document.getElementById('fullName').value = '';
+      document.getElementById('lastName').value = '';
+      document.getElementById('positionName').value = '';
+      document.getElementById('role').value = '';
+    }
+
+    function clearForm() {
+      productionForm.reset();
+      formMessage.textContent = '';
+      formMessage.className = 'message';
+    }
+
+    async function checkAuth() {
+      const response = await fetch('/admin/status');
+      const data = await response.json();
+      if (data.authenticated) {
+        loginPanel.classList.add('hidden');
+        adminPanel.classList.remove('hidden');
+      } else {
+        loginPanel.classList.remove('hidden');
+        adminPanel.classList.add('hidden');
+      }
+    }
+
+    document.getElementById('loginForm').addEventListener('submit', async function(event) {
+      event.preventDefault();
+      const formData = new FormData(this);
+      const payload = Object.fromEntries(formData.entries());
+
+      const response = await fetch('/admin/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      const data = await response.json();
+
+      if (data.success) {
+        loginMessage.textContent = 'Logged in.';
+        loginMessage.className = 'message success';
+        checkAuth();
+      } else {
+        loginMessage.textContent = data.error || 'Login failed.';
+        loginMessage.className = 'message error';
+      }
+    });
+
+    productionForm.addEventListener('submit', async function(event) {
+      event.preventDefault();
+      const headerValues = getProductionHeaderValues();
+      const formData = new FormData(this);
+      const payload = Object.fromEntries(formData.entries());
+
+      const response = await fetch('/admin/production', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      const data = await response.json();
+
+      if (data.success) {
+        formMessage.textContent = 'Production entry saved.';
+        formMessage.className = 'message success';
+        restoreProductionHeaderValues(headerValues);
+        clearPersonFields();
+      } else {
+        formMessage.textContent = data.error || 'Save failed.';
+        formMessage.className = 'message error';
+      }
+    });
+
+    document.getElementById('clearFormButton').addEventListener('click', function() {
+      clearForm();
+    });
+
+    passwordForm.addEventListener('submit', async function(event) {
+      event.preventDefault();
+      const formData = new FormData(this);
+      const payload = Object.fromEntries(formData.entries());
+
+      const response = await fetch('/admin/password', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      const data = await response.json();
+
+      if (data.success) {
+        passwordMessage.textContent = 'Password changed successfully.';
+        passwordMessage.className = 'message success';
+        this.reset();
+      } else {
+        passwordMessage.textContent = data.error || 'Password change failed.';
+        passwordMessage.className = 'message error';
+      }
+    });
+
+    document.getElementById('logoutButton').addEventListener('click', async function() {
+      await fetch('/admin/logout', { method: 'POST' });
+      checkAuth();
+    });
+
+    checkAuth();
+  </script>
+</body>
+</html>
