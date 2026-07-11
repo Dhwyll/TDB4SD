@@ -5,6 +5,15 @@
 const bcrypt = require("bcrypt");
 const path = require("path");
 
+function renderStaticFile(res, filePath, errorMessage) {
+  res.sendFile(filePath, (err) => {
+    if (err) {
+      console.error(`Error serving ${filePath}:`, err);
+      res.status(500).json({ error: errorMessage, details: err.message, path: filePath });
+    }
+  });
+}
+
 module.exports = function(app, db, requireAdmin) {
 
   // GET /admin - redirect to production entry
@@ -15,24 +24,14 @@ module.exports = function(app, db, requireAdmin) {
   // GET /admin/login - serve login page
   app.get("/admin/login", function(req, res) {
     const filePath = path.join(__dirname, "..", "public", "admin-login.html");
-    res.sendFile(filePath, (err) => {
-      if (err) {
-        console.error("Error serving admin-login.html:", err);
-        res.status(500).json({ error: "Failed to load login page", details: err.message, path: filePath });
-      }
-    });
+    renderStaticFile(res, filePath, "Failed to load login page");
   });
 
   // GET /admin/production - serve production entry page (protected)
   app.get("/admin/production", function(req, res) {
     if (req.session && req.session.isAuthenticated) {
       const filePath = path.join(__dirname, "..", "public", "admin-production.html");
-      res.sendFile(filePath, (err) => {
-        if (err) {
-          console.error("Error serving admin-production.html:", err);
-          res.status(500).json({ error: "Failed to load production page", details: err.message, path: filePath });
-        }
-      });
+      renderStaticFile(res, filePath, "Failed to load production page");
     } else {
       res.redirect("/admin/login");
     }
@@ -42,12 +41,7 @@ module.exports = function(app, db, requireAdmin) {
   app.get("/admin/account", function(req, res) {
     if (req.session && req.session.isAuthenticated) {
       const filePath = path.join(__dirname, "..", "public", "admin-account.html");
-      res.sendFile(filePath, (err) => {
-        if (err) {
-          console.error("Error serving admin-account.html:", err);
-          res.status(500).json({ error: "Failed to load account page", details: err.message, path: filePath });
-        }
-      });
+      renderStaticFile(res, filePath, "Failed to load account page");
     } else {
       res.redirect("/admin/login");
     }
@@ -64,26 +58,38 @@ module.exports = function(app, db, requireAdmin) {
 
   // POST /admin/login - authenticate admin user
   app.post("/admin/login", async function(req, res) {
-    const username = (req.body.username || "").trim();
-    const password = (req.body.password || "").trim();
+    try {
+      const username = (req.body.username || "").trim();
+      const password = (req.body.password || "").trim();
 
-    if (!username || !password) {
-      return res.status(401).json({ error: "Invalid credentials" });
+      if (!username || !password) {
+        return res.status(401).json({ error: "Invalid credentials" });
+      }
+
+      const adminUser = await db.Admin_User.findOne({ where: { username } });
+      if (!adminUser) {
+        return res.status(401).json({ error: "Invalid credentials" });
+      }
+
+      const passwordMatches = await bcrypt.compare(password, adminUser.passwordHash);
+      if (!passwordMatches) {
+        return res.status(401).json({ error: "Invalid credentials" });
+      }
+
+      req.session.regenerate(function(err) {
+        if (err) {
+          console.error("Session regeneration failed:", err);
+          return res.status(500).json({ error: "Unable to establish session." });
+        }
+
+        req.session.isAuthenticated = true;
+        req.session.username = username;
+        return res.json({ success: true, username });
+      });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ error: "Unable to process login." });
     }
-
-    const adminUser = await db.Admin_User.findOne({ where: { username } });
-    if (!adminUser) {
-      return res.status(401).json({ error: "Invalid credentials" });
-    }
-
-    const passwordMatches = await bcrypt.compare(password, adminUser.passwordHash);
-    if (!passwordMatches) {
-      return res.status(401).json({ error: "Invalid credentials" });
-    }
-
-    req.session.isAuthenticated = true;
-    req.session.username = username;
-    return res.json({ success: true, username });
   });
 
   // POST /admin/password - change admin password (protected)

@@ -7,6 +7,7 @@
 var express = require("express");
 var session = require("express-session");
 var bcrypt = require("bcrypt");
+var SequelizeStore = require("connect-session-sequelize")(session.Store);
 // removing to adapt to new Express version 5
 // var bodyParser = require("body-parser");
 
@@ -14,8 +15,16 @@ var bcrypt = require("bcrypt");
 // =============================================================
 var app = express();
 let PORT = process.env.PORT || 8080;
+const isProduction = process.env.NODE_ENV === "production";
+const SESSION_IDLE_TIMEOUT_MS = Number(process.env.SESSION_IDLE_TIMEOUT_MS || 30 * 60 * 1000);
 // Requiring our models for syncing
 var db = require("./models");
+const sessionStore = new SequelizeStore({
+  db: db.sequelize,
+  tableName: "Sessions",
+  checkExpirationInterval: 15 * 60 * 1000,
+  expiration: SESSION_IDLE_TIMEOUT_MS
+});
 
 // Sets up the Express app to handle data parsing
 app.use(express.json());
@@ -23,16 +32,40 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.text());
 app.use(express.json({ type: "application/vnd.api+json" }));
 
+if (isProduction && !process.env.SESSION_SECRET) {
+  throw new Error("SESSION_SECRET is required in production.");
+}
+
+app.set("trust proxy", 1);
+
 app.use(session({
+  name: "tdb4sd.sid",
   secret: process.env.SESSION_SECRET || "tdb4sd-testing-secret",
   resave: false,
   saveUninitialized: false,
-  cookie: { httpOnly: true, sameSite: true }
+  rolling: true,
+  proxy: isProduction,
+  store: sessionStore,
+  cookie: {
+    httpOnly: true,
+    sameSite: "lax",
+    secure: isProduction,
+    maxAge: SESSION_IDLE_TIMEOUT_MS
+  }
 }));
 
 async function ensureDefaultAdminUser() {
-  const username = process.env.TDB4SD_ADMIN_USERNAME || "admin";
-  const password = process.env.TDB4SD_ADMIN_PASSWORD || "changeMe123!";
+  let username = process.env.TDB4SD_ADMIN_USERNAME;
+  let password = process.env.TDB4SD_ADMIN_PASSWORD;
+
+  if (!username || !password) {
+    if (isProduction) {
+      throw new Error("TDB4SD_ADMIN_USERNAME and TDB4SD_ADMIN_PASSWORD are required in production.");
+    }
+
+    username = username || "admin";
+    password = password || "changeMe123!";
+  }
 
   const existing = await db.Admin_User.findOne({ where: { username } });
   if (!existing) {
@@ -64,6 +97,7 @@ console.log("Admin routes loaded successfully");
 // Syncing our sequelize models and then starting our Express app
 // =============================================================
 db.sequelize.sync().then(async function() {
+  await sessionStore.sync();
   await ensureDefaultAdminUser();
   app.listen(PORT, function() {
     console.log("App listening on PORT " + PORT);
