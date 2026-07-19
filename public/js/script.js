@@ -18,15 +18,17 @@ $(document).ready(function(){
 		$("#theatreResultsContainer").hide();
 		$("#detailsContainer").hide();
 		$("#carouselContainer").hide();
-		$("#calendarContainer").hide();
 	}
 
 
 
 
-	// Make sure the various containers are hidden at the start.
+	// Make sure the various containers are hidden at the start
 	hideContainers();
 
+
+
+	// Normalize the search type to be used in the URL
 	function normalizeSearchType(searchType) {
 		if (!searchType || searchType === 'Filter') {
 			return 'All';
@@ -34,6 +36,9 @@ $(document).ready(function(){
 		return searchType;
 	}
 
+
+
+	// Read the URL parameters and return an object representing the current state of the application.
 	function getStateFromUrl() {
 		const params = new URLSearchParams(window.location.search);
 		const view = params.get('view');
@@ -71,6 +76,10 @@ $(document).ready(function(){
 		};
 	}
 
+
+
+
+	// Convert the current state of the application into a URL with query parameters
 	function stateToUrl(state) {
 		const params = new URLSearchParams();
 		const normalizedState = {
@@ -102,6 +111,10 @@ $(document).ready(function(){
 		return queryString ? `${window.location.pathname}?${queryString}` : window.location.pathname;
 	}
 
+
+
+
+	// Apply the given state to the application, updating the UI and optionally pushing a new history entry
 	function applyState(state, options) {
 		const { push = true } = options || {};
 		const normalizedState = {
@@ -169,14 +182,25 @@ $(document).ready(function(){
 		}
 	}
 
+
+
+
+	// Restore the application state from the URL when the page is loaded or when the user navigates using the browser's back/forward buttons
 	function restoreStateFromUrl() {
 		applyState(getStateFromUrl(), { push: false });
 	}
 
+
+
+
+	// Handle the popstate event to restore the application state when the user navigates using the browser's back/forward buttons
 	function handlePopState(event) {
 		const currentState = event.state || getStateFromUrl();
 		applyState(currentState, { push: false });
 	}
+
+
+
 
 	// Convert a date from SQL into a date object for JavaScript
 	function sqlToJavaScriptDate(newDate) {
@@ -187,7 +211,7 @@ $(document).ready(function(){
 	
 
 
-	// Convert get a random background color
+	// Get a random background color
 	function randomBackground() {
 		switch (Math.floor(Math.random() * 7)) {
 			case 0:
@@ -253,6 +277,9 @@ $(document).ready(function(){
 		}
 	}
 
+
+
+
 	// This function constructs the rest of the Carousel entries
 	function createRestCarouselEntries(results) {
 		if (results.Image == null) {
@@ -299,6 +326,7 @@ $(document).ready(function(){
 
 
 
+	// This function grabs Carousel entries from the database and updates the Carousel container
 	function loadCarousel() {
 		$.get("/api/Carousel", function(data) {
 			if (data.length == 0) {
@@ -335,6 +363,9 @@ $(document).ready(function(){
 		});
 	}
 
+
+
+
 	// This function resets the Production Results displayed with new results from the database
 	function initializeProductionRows(productions) {
 		if (productions.length > 0) {
@@ -359,6 +390,9 @@ $(document).ready(function(){
 		}
 	}
 
+
+
+
 	// This function constructs a results row
 	function createNewProductionRow(results) {
 		let openDate = sqlToJavaScriptDate(results.Open_Date);
@@ -382,16 +416,27 @@ $(document).ready(function(){
 		return $newInputRow;
 	}
 
+
+
+
+
 	// When the Production Details button is clicked, grab the Production ID and call the getProductionDetails function
 	$(document).on("click", "button.productionDetails", getProductionDetails);
 
-	// This function updates the UI state so the shared production-detail renderer can load the view once.
+
+
+
+
+	// This function updates the UI state so the shared production-detail renderer can load the view once
 	function getProductionDetails(event) {
 		event.stopPropagation();
 		let showID = $(this).val();
 		let resultTitle = $(this).closest('.row').find('.results-item').first().text().trim();
 		applyState({ view: 'production', type: 'Production', id: showID, name: resultTitle }, { push: true });
 	}
+
+
+
 
 	// Reset the Search to look for Title under Productions, run the search, and get the Details for that Production
 	function getProductionIDResults(productionID, productionName) {
@@ -413,6 +458,9 @@ $(document).ready(function(){
 			initializeProductionDetailRows(data, productionID);
 		});
 	}
+
+
+
 
 	// This function resets the Production Results displayed with new results from the database
 	function initializeProductionDetailRows(productionDetails, showID) {
@@ -1033,6 +1081,9 @@ $(document).ready(function(){
 			initializeAwardDetailRows(data);
 		});
 
+
+
+
 		// This function resets the Production Results displayed with new results from the database
 		function initializeAwardDetailRows(awards) {
 			if (awards.length > 0) {
@@ -1191,6 +1242,9 @@ $(document).ready(function(){
 		});
 	}
 
+
+
+
 	// Reset the Search to look for Name under Persons, run the search, and get the Details for that Person
 	function getPersonIDResults(personID, personName) {
 		$("#searchType").text("Person");
@@ -1211,6 +1265,9 @@ $(document).ready(function(){
 			initializePersonDetailRows(data, personID);
 		});
 	}
+
+
+
 
 	// This function resets the Production Results displayed with new results from the database
 	function initializePersonRows(persons) {
@@ -1241,6 +1298,9 @@ $(document).ready(function(){
 		}
 	}
 
+
+
+
 	// This function constructs a results row
 	function createNewPersonRow(results) {
 		var $newInputRow = $(
@@ -1260,16 +1320,26 @@ $(document).ready(function(){
 		return $newInputRow;
 	}
 
+
+
+
 	// When the Person Details button is clicked, grab the Person ID and call the getPersonDetails function
 	$(document).on("click", "button.personDetails", getPersonDetails);
 
-	// This function updates the UI state so the shared person-detail renderer can load the view once.
+
+
+
+
+	// This function updates the UI state so the shared person-detail renderer can load the view once
 	function getPersonDetails(event) {
 		event.stopPropagation();
 		let personID = $(this).val();
 		let personName = $(this).closest('.row').find('.results-item').first().text().trim();
 		applyState({ view: 'person', type: 'Person', id: personID, name: personName }, { push: true });
 	}
+
+
+
 
 	// This function resets the Person Results displayed with new results from the database
 	function initializePersonDetailRows(personDetails, personID) {
@@ -1458,6 +1528,9 @@ $(document).ready(function(){
 		});
 	}
 
+
+
+
 	// Reset the Search to look for Title under Productions, run the search, and get the Details for that Production
 	function getTheatreIDResults(theatreID, theatreName) {
 		$("#searchType").text("Theatre");
@@ -1478,6 +1551,9 @@ $(document).ready(function(){
 			initializeTheatreDetailRows(data, theatreID);
 		});
 	}
+
+
+
 
 	// This function resets the Production Results displayed with new results from the database
 	function initializeTheatreRows(theatres) {
@@ -1508,6 +1584,10 @@ $(document).ready(function(){
 		}
 	}
 
+
+
+
+
 	// This function constructs a results row for the Theatres
 	function createNewTheatreRow(results) {
 		var $newInputRow = $(
@@ -1527,8 +1607,14 @@ $(document).ready(function(){
 		return $newInputRow;
 	}
 
+
+
+
 	// When the Theatre Details button is clicked, grab the Person ID and call the getTheatreDetails function
 	$(document).on("click", "button.theatreDetails", getTheatreDetails);
+
+
+
 
 	// This function updates the UI state so the shared theatre-detail renderer can load the view once.
 	function getTheatreDetails(event) {
@@ -1537,6 +1623,9 @@ $(document).ready(function(){
 		let theatreName = $(this).closest('.row').find('.results-item').first().text().trim();
 		applyState({ view: 'theatre', type: 'Theatre', id: theatreID, name: theatreName }, { push: true });
 	}
+
+
+
 
 	// This function resets the Theatre Deatils Results displayed with new results from the database
 	function initializeTheatreDetailRows(showDetails) {
@@ -1590,24 +1679,6 @@ $(document).ready(function(){
 
 
 
-
-	function getCalendar(currDate) {
-		$("#calendarContainer").show();
-	}
-
-
-
-
-	// Load the Calendar
-	$("#calendarLink").on("click", function() {
-		event.preventDefault();
-		hideContainers();
-		getCalendar(Date());
-	});
-
-
-
-
 	// When a Search Type is chosen, update the dropdown button
 	$(function() {
 		$(".dropdown-menu a").on("click", function(event) {
@@ -1618,20 +1689,35 @@ $(document).ready(function(){
 		});
 	});
 
+
+
+
 	// When clicking on an individual Production in the Details, look up that Production and get their Details
 	$(document).on("click", "span.productionLookup", function() {
 		applyState({ view: 'production', type: 'Production', id: $(this).attr('data-id'), name: $(this).text().trim() }, { push: true });
 	});
+
+
+
+
 
 	// When clicking on an individual Person in the Details, look up at that Person and get their Details
 	$(document).on("click", "span.personLookup", function() {
 		applyState({ view: 'person', type: 'Person', id: $(this).attr('data-id'), name: $(this).text().trim() }, { push: true });
 	});
 
+
+
+
+
 	// When clicking on an individual Theatre in the Details, look up that Theatre and get its Details
 	$(document).on("click", "span.theatreLookup", function() {
 		applyState({ view: 'theatre', type: 'Theatre', id: $(this).attr('data-id'), name: $(this).text().trim() }, { push: true });
 	});
+
+
+
+
 
 	// This functions calls the various searches
 	$("form.form-inline").on("submit", function(event) {
@@ -1645,11 +1731,17 @@ $(document).ready(function(){
 		}
 	});
 
+
+
+	// When the Search button is clicked, trigger the form submission
 	$("#searchButton").on("click", function(event) {
 		event.preventDefault();
 		$("form.form-inline").trigger("submit");
 	});
 
+
+
+	// When the Back button is clicked, restore the previous state
 	window.addEventListener('popstate', handlePopState);
 	restoreStateFromUrl();
 

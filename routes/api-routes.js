@@ -32,11 +32,6 @@ module.exports = function(app) {
 			});
 	});
 
-	// GET route for Calendar information
-	app.get("/api/Calendar", (req, res) => {
-
-	});
-
 	// GET route for getting all of the Productions
 	app.get("/api/Production", ( req, res ) => {
 		// Retrieve all of the Productions from the database and res.json them back to the user
