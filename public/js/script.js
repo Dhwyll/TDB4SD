@@ -431,7 +431,7 @@ $(document).ready(function(){
 	function getProductionDetails(event) {
 		event.stopPropagation();
 		let showID = $(this).val();
-		let resultTitle = $(this).closest('.row').find('.results-item').first().text().trim();
+		let resultTitle = $(this).closest('.row').find('.results-item .boldItalic').first().text().trim();
 		applyState({ view: 'production', type: 'Production', id: showID, name: resultTitle }, { push: true });
 	}
 
